@@ -1,21 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.auth')
 
-<script src="{{ asset('/js/result.js') }}"></script> 
-
-@section('Map')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="text-center">
-            Map
-            <div id="map" style="height:400px"> 
-            <!-- //追加 -->
-	        </div>
-        </div>
-    </div>
-</div>
-@endsection
-
-@section('Photo')
+@section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">

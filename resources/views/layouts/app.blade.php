@@ -7,74 +7,68 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'SimpleNote') }}</title>
+
+    <!-- Scripts -->
+    <script src="{{ '/js/app.js' }}" defer></script>
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @yield('js')
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?language=ja&region=JP&key=[APIキーをここに入力]&callback=initMap" async defer> -->
+    <script src="https://maps.googleapis.com/maps/api/js?language=ja&region=JP&key=AIzaSyAQPboFGY6ZEOp_eRLjVeuADsgBTvePFNM&callback=initMap" async defer></script>
+    <!-- 上のがMap用のjs -->
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
-    <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <!-- Styles -->
+    <link href= '/css/app.css' rel="stylesheet">
+    <link href="{{ '/css/utility.css' }}" rel="stylesheet">
+    @yield('css')
 </head>
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    {{ config('app.name') }}
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
-
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                </li>
-                            @endif
-
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
             </div>
         </nav>
 
-        <main class="py-4">
-            @yield('content')
+        <main class="main">
+        <div class="row" style='height: auto;'><!--62vh row justify-content-center -->
+            <div class="col-md-7 p-0">
+            <div class="card h-auto">
+                <div class="card-header "> 
+                    <div class="text-center">
+                    自販売
+                    </div>
+                </div>
+                <div class="card-body p-2">
+                  @yield('Map')
+                </div>
+            </div>    
+            </div> <!-- col-md-3 -->
+
+            <div class="col-md-5 p-0">
+              @yield('Photo')
+            </div>
+        </div> <!-- row justify-content-center -->
         </main>
+
+        <div class="container" style="padding:8px 0">
+            <label class="text-center">オプション</label>
+            <div class="d-flex justify-content-around">
+                <!-- <a href="{{route('app.create')}}" class="btn btn-primary p-0">追加</a> -->
+                <!-- <a href="{{route('app.edit')}}" class="btn btn-primary p-0">編集</a> -->
+            </div>
+        </div>
+
+        <footer id="footer" class="text-center my-3">
+            <small>&copy; 2022 inu</small>
+        </footer>
     </div>
 </body>
 </html>

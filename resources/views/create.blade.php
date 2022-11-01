@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-<script src="{{ asset('/js/result.js') }}"></script> 
+<script src="{{ asset('/js/create.js') }}"></script> 
 
 @section('Map')
 <div class="container">
