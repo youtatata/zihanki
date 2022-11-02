@@ -97,4 +97,9 @@ function initMap() {
         var pos = map.getCenter();
         tgt_marker.setPosition(pos);
         });  
+
+        //マップの中心の緯度、経度の取得
+        var latlng = map.getCenter();
+        var lat = latlng.lat();
+        var lng = latlng.lng();
   }

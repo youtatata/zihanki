@@ -75,33 +75,4 @@ function initMap() {
     map.mapTypes.set(myMapTypeId, myMapType);
     map.setMapTypeId(myMapTypeId);
 
-
-    //ターゲットスコープをセット
-    var tgt_marker = new google.maps.Marker({
-        position: {lat: 0, lng: 0},
-        map: map,
-        icon: {
-            url: "./icon.png",
-            size: new google.maps.Size(32, 32),
-            origin: new google.maps.Point(0, 0),
-            scaledSize: new google.maps.Size(32, 32),
-            anchor: new google.maps.Point(16, 16)      
-        },
-        clickable: false, /* クリック不可 */
-        zIndex: 0
-        });
-        //ターゲットスコープ表示
-        tgt_marker.setMap(map);
-    
-        //地図の表示内容が変更されたら、センター座標取得しマーカー座標変更
-        google.maps.event.addListener( map ,'bounds_changed',function(){
-        var pos = map.getCenter();
-        tgt_marker.setPosition(pos);
-        });
-
-
-        //マップの中心の緯度、経度の取得
-        var latlng = map.getCenter();
-        var lat = latlng.lat();
-        var lng = latlng.lng();
 }
