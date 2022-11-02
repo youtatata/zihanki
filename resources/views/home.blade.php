@@ -1,8 +1,7 @@
 @extends('layouts.app')
 
-<script src="{{ asset('/js/result.js') }}"></script> 
-
 @section('Map')
+<script src="{{ asset('/js/result.js') }}"></script> 
 <div class="container">
     <div class="row justify-content-center">
         <div class="text-center">

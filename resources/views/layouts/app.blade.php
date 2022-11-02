@@ -43,7 +43,7 @@
             <div class="card h-auto">
                 <div class="card-header "> 
                     <div class="text-center">
-                    自販売
+                    自動販売機
                     </div>
                 </div>
                 <div class="card-body p-2">
@@ -62,7 +62,6 @@
             <label class="text-center">オプション</label>
             <div class="d-flex justify-content-around">
                 <a href="{{route('app.create')}}" class="btn btn-primary p-0">追加</a>
-                <a href="{{route('app.edit')}}" class="btn btn-primary p-0">編集</a>
             </div>
         </div>
 
