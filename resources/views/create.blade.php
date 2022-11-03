@@ -1,7 +1,6 @@
 @extends('layouts.app')
-
-@section('Map')
 <script src="{{ asset('/js/create.js') }}"></script> 
+@section('Map')
 <div class="container">
     <div class="row justify-content-center">
         <div class="text-center">
