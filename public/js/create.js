@@ -33,7 +33,7 @@ function initMap() {
       position: {lat: 0, lng: 0},
       map: map,
       icon: {
-        url: './images/Icon.png',
+        url: "./img/Icon.png",
         size: new google.maps.Size(32, 32),
         origin: new google.maps.Point(0, 0),
         scaledSize: new google.maps.Size(32, 32),
@@ -55,5 +55,19 @@ function initMap() {
         var latlng = map.getCenter();
         var lat = latlng.lat();
         var lng = latlng.lng();
-  
 }
+
+
+// function dispLatLng(){
+//   var latlng = map.getCenter();
+//   var str = "中心：" + latlng.lat() + "," + latlng.lng() + "<br>";
+
+//   var latlngBounds = map.getBounds();
+//   var swLatlng = latlngBounds.getSouthWest();
+//   str = str + "左下：" + swLatlng.lat() + "," + swLatlng.lng() + "<br>";
+
+//   var neLatlng = latlngBounds.getNorthEast();
+//   str = str + "右上：" + neLatlng.lat() + "," + neLatlng.lng();
+
+//   document.getElementById("latlng").innerHTML = str;
+// }

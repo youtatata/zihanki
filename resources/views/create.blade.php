@@ -1,5 +1,5 @@
 @extends('layouts.app')
-<script src="{{ asset('/js/create.js') }}"></script> 
+<script src="{{ asset('/js/create.js') }}"></script>
 @section('Map')
 <div class="container">
     <div class="row justify-content-center">
@@ -19,7 +19,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Dashboard') }}</div>
-
+                <!-- <p id="latlng"></p> -->
                 <div class="card-body">
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
