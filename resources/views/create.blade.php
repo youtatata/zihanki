@@ -1,5 +1,6 @@
 @extends('layouts.app')
 <script src="{{ asset('/js/create.js') }}"></script>
+
 @section('Map')
 <div class="container">
     <div class="row justify-content-center">
@@ -18,16 +19,21 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
+                <div class="card-header text-center">{{ _('登録位置') }}</div>
                 <!-- <p id="latlng"></p> -->
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
 
-                    {{ __('You are logged in!') }}
+                    <form method='post' action="{{route('app.store')}}" enctype="multipart/form-data">
+                        @csrf
+                        <ul>
+                            <div class="form-group">
+                                <!-- <textarea name='content' class="form-control"rows="10"></textarea> -->
+                                <textarea name="content" class="form-control"rows="10" required></textarea>
+                                <input type="file" name="image">
+                            <button type='submit' class="btn btn-primary btn-lg">保存</button>
+                        </ul>
+                    </form>
+
                 </div>
             </div>
         </div>

@@ -36,4 +36,19 @@ class HomeController extends Controller
         return view('edit');
     }
 
+    public function store(Request $request)
+    {
+        $data = $request->all();
+        dd($data);
+        
+        // ディレクトリ名
+        $dir = 'sample';
+
+        // sampleディレクトリに画像を保存
+        $request->file('image')->store('public/' . $dir);
+
+        return redirect('/');
+
+    }
+
 }

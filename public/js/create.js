@@ -29,7 +29,7 @@ function initMap() {
 
 
     //ターゲットスコープをセット
-    var tgt_marker = new google.maps.Marker({
+    var tg_marker = new google.maps.Marker({
       position: {lat: 0, lng: 0},
       map: map,
       icon: {
@@ -43,12 +43,12 @@ function initMap() {
       zIndex: 0
     });
     //ターゲットスコープ表示
-    tgt_marker.setMap(map);
+    tg_marker.setMap(map);
  
     //地図の表示内容が変更されたら、センター座標取得しマーカー座標変更
     google.maps.event.addListener( map ,'bounds_changed',function(){
       var pos = map.getCenter();
-      tgt_marker.setPosition(pos);
+      tg_marker.setPosition(pos);
     });  
     
         //マップの中心の緯度、経度の取得
