@@ -41,14 +41,7 @@
         <div class="row" style='height: auto;'><!--62vh row justify-content-center -->
             <div class="col-md-7 p-0">
             <div class="card h-auto">
-                <div class="card-header "> 
-                    <div class="text-center">
-                    自動販売機
-                    </div>
-                </div>
-                <div class="card-body p-2">
-                  @yield('Map')
-                </div>
+                @yield('Map')
             </div>    
             </div> <!-- col-md-3 -->
 
