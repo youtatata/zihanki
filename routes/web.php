@@ -17,9 +17,10 @@ use App\Http\Controllers\HomeController;
 Route::get('/', function () {
     return view('home');
 });
-
-// Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
 Route::resource('app', HomeController::class);
+
+Auth::routes();
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+Route::get('/creative', [HomeController::class, 'creative'])->name('creative');

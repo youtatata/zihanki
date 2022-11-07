@@ -61,7 +61,7 @@
         <div class="container" style="padding:8px 0">
             <label class="text-center">オプション</label>
             <div class="d-flex justify-content-around">
-                <a href="{{route('app.create')}}" class="btn btn-primary p-1">追加</a>
+                <a href="{{route('creative')}}" class="btn btn-primary p-1">追加</a>
             </div>
         </div>
 
