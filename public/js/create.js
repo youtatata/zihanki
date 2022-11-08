@@ -50,11 +50,24 @@ function initMap() {
       tgt_marker.setPosition(pos);
       });
 
+      //マップの中心の緯度、経度の取得
+    google.maps.event.addListener( map ,'bounds_changed',function(){
+    let latlng = map.getCenter();
+    let lat = latlng.lat();
+    let lng = latlng.lng();
+    document.getElementById("lat").innerHTML = '経度:' + lat;
+    document.getElementById("lng").innerHTML = '緯度:' + lng;
+    console.log(lat)
+    console.log(lng)
+    });
 }
 
-function iti() {
- //マップの中心の緯度、経度の取得
- var latlng = map.getCenter();
- var lat = latlng.lat();
- var lng = latlng.lng();
-}
+// function iti() {
+//     //マップの中心の緯度、経度の取得
+//     let latlng = map.getCenter();
+//     let lat = latlng.lat();
+//     let lng = latlng.lng();
+//     document.getElementById("lat").innerHTML = lat;
+//     document.getElementById("lng").innerHTML = lng;
+//     console.log(lat)
+// }
