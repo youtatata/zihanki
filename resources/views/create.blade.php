@@ -25,8 +25,10 @@
                     <form method='post' action="{{route('app.store')}}">
                         @csrf
                         <ul>
-                            <div id="lat">緯度:</div>
-                            <div id="lng">経度:</div>
+                        <input value type="hidden" id="lat" name="lat" required>
+                        <input value type="hidden" id="lng" name="lng" required>
+                            <div id="Lat"></div>
+                            <div id="Lng"></div>
                             <div class="form-group">
                                 <!-- <textarea name='content' class="form-control"rows="10"></textarea> -->
                                 <textarea name="content" class="form-control"rows="10" required></textarea>

@@ -55,18 +55,11 @@ function initMap() {
     let latlng = map.getCenter();
     let lat = latlng.lat();
     let lng = latlng.lng();
-    document.getElementById("lat").innerHTML = '緯度:' + ((Math.floor(lat * 100000))/100000);
-    document.getElementById("lng").innerHTML = '経度:' + ((Math.floor(lng * 100000))/100000);
+    document.getElementById("lat").value = lat;
+    document.getElementById("lng").value = lng;
+    document.getElementById("Lat").innerHTML = '緯度:' + ((Math.floor(lat * 100000))/100000);
+    document.getElementById("Lng").innerHTML = '経度:' + ((Math.floor(lng * 100000))/100000);
     // console.log(lng)
     });
 }
 
-// function iti() {
-//     //マップの中心の緯度、経度の取得
-//     let latlng = map.getCenter();
-//     let lat = latlng.lat();
-//     let lng = latlng.lng();
-//     document.getElementById("lat").innerHTML = lat;
-//     document.getElementById("lng").innerHTML = lng;
-//     console.log(lat)
-// }
