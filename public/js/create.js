@@ -55,10 +55,9 @@ function initMap() {
     let latlng = map.getCenter();
     let lat = latlng.lat();
     let lng = latlng.lng();
-    document.getElementById("lat").innerHTML = '経度:' + lat;
-    document.getElementById("lng").innerHTML = '緯度:' + lng;
-    console.log(lat)
-    console.log(lng)
+    document.getElementById("lat").innerHTML = '緯度:' + ((Math.floor(lat * 100000))/100000);
+    document.getElementById("lng").innerHTML = '経度:' + ((Math.floor(lng * 100000))/100000);
+    // console.log(lng)
     });
 }
 
