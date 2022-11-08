@@ -14,8 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('zihanki', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->bigIncrements('id');
+            $table->double('lat', 8,6);
+            $table->double('lng',9,6);
+            $table->string('img_path');
         });
     }
 

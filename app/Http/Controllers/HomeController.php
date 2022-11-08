@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Zihan;
 
 class HomeController extends Controller
 {
@@ -11,10 +12,11 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     /**
      * Show the application dashboard.
@@ -23,7 +25,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        // Zihanテーブルのデータを全て取得
+        $zihans = Zihan::get();
+        return view('home', compact('zihans'));
     }
 
     public function create()
@@ -47,22 +51,24 @@ class HomeController extends Controller
         $data = $request->all();
         // dd($data);
 
-        $dir = 'sample';
+        $img = $data['image'];
 
-        // sampleディレクトリに画像を保存
-        $data->file('image')->store('public/' . $dir);
-
-        return redirect('/');
-        
-        // $memo_id = Memo::insertGetId([
-        //     'content' => $data['content'],
-        //      'user_id' => $data['user_id'],
-        //      'tag_id' => $tag_id,
-        //      'status' => 1
-        // ]);
-        
+         // 画像情報がセットされていれば、保存処理を実行
+         if (isset($img)) {
+            // storage > public > img配下に画像が保存される
+            $path = $img->store('img','public');
+            // store処理が実行できたらDBに保存処理を実行
+            if ($path) {
+                // DBに登録する処理
+                Zihan::create([
+                    'img_path' => $path,
+                    'lat' => $data['lat'],
+                    'lng' => $data['lng'],
+                ]);
+            }
+        }
         // // リダイレクト処理
-        // return redirect()->route('home');
+        return redirect()->route('home');
     }
 
 }
