@@ -62,4 +62,3 @@ function initMap() {
     // console.log(lng)
     });
 }
-

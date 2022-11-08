@@ -36,3 +36,11 @@
     </div>
 </div>
 @endsection
+
+@section('Container')
+<label class="text-center">オプション</label>
+<div class="d-flex justify-content-around">
+    <a href="{{route('creative')}}" class="btn btn-primary p-1">追加</a>
+</div>
+@endsection
+

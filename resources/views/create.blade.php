@@ -1,5 +1,6 @@
 @extends('layouts.app')
-<script src="{{ asset('js/create.js') }}"></script> 
+<script src="{{ asset('js/create.js') }}"></script>
+<!-- <link rel=”stylesheet” href="{{ asset('css/create.css') }}"> -->
 @section('Map')
 <div class="card-header "> 
     <div class="text-center">
@@ -22,23 +23,28 @@
             <div class="card">
                 <div class="card-header">{{ __('写真登録') }}</div>
                 <div class="card-body">
-                    <form method='post' action="{{route('app.store')}}">
+                    <form method='post' action="{{route('app.store')}}"enctype="multipart/form-data">
                         @csrf
                         <ul>
-                        <input value type="hidden" id="lat" name="lat" required>
-                        <input value type="hidden" id="lng" name="lng" required>
+                            <input value type="hidden" id="lat" name="lat" required>
+                            <input value type="hidden" id="lng" name="lng" required>
                             <div id="Lat"></div>
                             <div id="Lng"></div>
-                            <div class="form-group">
-                                <!-- <textarea name='content' class="form-control"rows="10"></textarea> -->
-                                <textarea name="content" class="form-control"rows="10" required></textarea>
-                            </div>
-                            <button type='submit' class="btn btn-primary btn-lg">保存</button>
+                            <input type="file" name="image">
+                            <br>
+                            <button type='submit' class="btn btn-primary p-1">保存</button>
                         </ul>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
+@endsection
+
+@section('Container')
+<label class="text-center">マップが表示されない場合は更新ボタン</label>
+<div class="d-flex justify-content-around">
+    <a href="{{route('home')}}" class="btn btn-primary p-1">ホーム</a>
 </div>
 @endsection
