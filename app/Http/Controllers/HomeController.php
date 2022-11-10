@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Zihan;
+use App\Models\ZSihanki;
 
 class HomeController extends Controller
 {
@@ -26,7 +26,7 @@ class HomeController extends Controller
     public function index()
     {
         // Zihanテーブルのデータを全て取得
-        $zihans = Zihan::get();
+        $zihans = Zihanki::get();
         return view('home', compact('zihans'));
     }
 
@@ -45,6 +45,11 @@ class HomeController extends Controller
         return view('create');
     }
 
+    public function editing()
+    {
+        return view('edit');
+    }
+
     public function store(Request $request)
     {
         // $user =  \Auth::user();
@@ -60,7 +65,7 @@ class HomeController extends Controller
             // store処理が実行できたらDBに保存処理を実行
             if ($path) {
                 // DBに登録する処理
-                Zihan::create([
+                Zihanki::create([
                     'img_path' => $path,
                     'lat' => $data['lat'],
                     'lng' => $data['lng'],

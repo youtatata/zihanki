@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('zihanki', function (Blueprint $table) {
+        Schema::create('zihankis', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->double('lat', 8,6);
             $table->double('lng',9,6);
