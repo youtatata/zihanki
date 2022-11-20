@@ -1,15 +1,22 @@
 @extends('layouts.app')
-<script src="{{ asset('js/result.js') }}"></script> 
+<script src="{{ asset('js/result.js') }}"></script>
+<!-- <script> const data = "@json($data)";</script> -->
 @section('Map')
 <div class="card-header "> 
     <div class="text-center">
     自動販売機
     </div>
 </div>
-<div class="card-body p-2">
+<div class="card-body p-3">
     <div class="container">
         <div class="row justify-content-center">
             <div id="map" style="height:400px"></div>
+                <table>
+                <tr>
+                    <td><div id="target"></div></td>
+                    <td><div id="sidebar"></div></td>
+                </tr>
+                </table>
         </div>
     </div>
 </div>
@@ -20,16 +27,12 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
+                <div class="card-header">{{ __('商品') }}</div>
 
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
+                    <div class="text-center">
+                        <img src= "{{ asset('storage/'.$owner->img_path) }}" class="img-fluid" alt="...">
+                    </div>
                 </div>
             </div>
         </div>
@@ -38,9 +41,10 @@
 @endsection
 
 @section('Container')
-<label class="text-center">オプション</label>
+<label class="text-center">自動販売機　ピン　オプション</label>
 <div class="d-flex justify-content-around">
     <a href="{{route('creative')}}" class="btn btn-primary p-1">追加</a>
+    <a href="{{route('editing')}}" class="btn btn-primary p-1">編集</a>
 </div>
 @endsection
 

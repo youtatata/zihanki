@@ -9,7 +9,7 @@ class Zihanki extends Model
 {
     use HasFactory;
     
-    // protected $table = 'zihanki';
+    // protected $table = 'zihankis';
 
     protected $fillable = [
         'lat',

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\ZSihanki;
+use App\Models\Zihanki;
 
 class HomeController extends Controller
 {
@@ -26,8 +26,10 @@ class HomeController extends Controller
     public function index()
     {
         // Zihanテーブルのデータを全て取得
-        $zihans = Zihanki::get();
-        return view('home', compact('zihans'));
+        $data = Zihanki::get();
+        $owner = Zihanki::where('id', '2')->first();
+        // dd($owner);
+        return view('home', compact('owner','data'));
     }
 
     public function create()

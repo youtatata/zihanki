@@ -6,6 +6,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="stylesheet" href="{{ secure_asset('/css/style.css')  }}" >
 
     <title>{{ config('app.name', 'SimpleNote') }}</title>
 
