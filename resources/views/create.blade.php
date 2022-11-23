@@ -1,6 +1,10 @@
 @extends('layouts.app')
+
+@section('js')
 <script src="{{ asset('js/create.js') }}"></script>
 <!-- <link rel=”stylesheet” href="{{ asset('css/create.css') }}"> -->
+@endsection
+
 @section('Map')
 <div class="card-header "> 
     <div class="text-center">

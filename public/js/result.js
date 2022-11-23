@@ -42,7 +42,9 @@ function initMap() {
     //   });
 
 
-    text = "tests"
-    document.getElementById("target").innerHTML = text;
+    jss = "data"
+    document.getElementById("jss").innerHTML = jss;
 
+    datas = "tests"
+    document.getElementById("target").innerHTML = datas;
 }

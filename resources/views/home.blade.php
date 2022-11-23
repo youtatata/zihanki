@@ -1,6 +1,9 @@
 @extends('layouts.app')
-<script src="{{ asset('js/result.js') }}"></script>
-<!-- <script> const data = "@json($data)";</script> -->
+
+@section('js')
+<script src="{{ asset('js/result.js') }}">const data = "@json($data)";</script>
+@endsection
+
 @section('Map')
 <div class="card-header "> 
     <div class="text-center">
@@ -11,12 +14,12 @@
     <div class="container">
         <div class="row justify-content-center">
             <div id="map" style="height:400px"></div>
-                <table>
-                <tr>
-                    <td><div id="target"></div></td>
-                    <td><div id="sidebar"></div></td>
-                </tr>
-                </table>
+                <div class=text-center>
+                    <table>
+                        <div id="jss"></div>
+                        <div id="target"></div>
+                    </table>
+                </div>
         </div>
     </div>
 </div>
