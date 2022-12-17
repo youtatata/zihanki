@@ -25,11 +25,30 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // Zihanテーブルのデータを全て取得
-        $data = Zihanki::get();
-        $owner = Zihanki::where('id', '2')->first();
-        // dd($owner);
-        return view('home', compact('owner','data'));
+    //    $zihankis = Zihanki::get();
+
+    //    $zihankiList = array();
+
+    //    foreach($zihankis as $zihanki){
+    //        $zihankiList[] = array(
+    //        'id'    => $zihanki->id,
+    //        'img_path'  => $zihanki->img_path,
+    //        'lat' => $zihanki->lat,
+    //        'lng' => $zihanki->lng
+    //        );
+    //    }
+
+    //    // ヘッダーを指定することによりjsonの動作を安定させる
+    //    header('Content-type: application/json');
+
+    //    // htmlへ渡す配列$productListをjsonに変換する
+    //    echo json_encode($zihankiList[1]['lat']);
+        
+        $zihankis = Zihanki::get();
+        $owner = Zihanki::where('id', '3')->first();
+        // route('ajax');
+        // dd($zihankis);
+        return view('home', compact('owner','zihankis'));
     }
 
     public function create()

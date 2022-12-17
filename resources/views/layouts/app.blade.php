@@ -39,17 +39,17 @@
         </nav>
 
         <main class="main">
-        <div class="row" style='height: auto;'><!--62vh row justify-content-center -->
-            <div class="col-md-7 p-0">
-            <div class="card h-auto">
-                @yield('Map')
-            </div>    
-            </div> <!-- col-md-3 -->
+            <div class="row" style='height: auto;'><!--62vh row justify-content-center -->
+                <div class="col-md-7 p-0">
+                    <div class="card h-auto">
+                        @yield('Map')
+                    </div>    
+                </div> <!-- col-md-3 -->
 
-            <div class="col-md-5 p-0">
-              @yield('Photo')
-            </div>
-        </div> <!-- row justify-content-center -->
+                <div class="col-md-5 p-0">
+                    @yield('Photo')
+                </div>
+            </div> <!-- row justify-content-center -->
         </main>
 
         <div class="container" style="padding:8px 0">

@@ -1,7 +1,11 @@
 @extends('layouts.app')
 
 @section('js')
-<script src="{{ asset('js/result.js') }}">const data = "@json($data)";</script>
+<script src="{{ asset('js/result.js') }}"></script>
+
+<script>
+   const data = @json($zihankis);
+</script>
 @endsection
 
 @section('Map')
@@ -14,12 +18,18 @@
     <div class="container">
         <div class="row justify-content-center">
             <div id="map" style="height:400px"></div>
-                <div class=text-center>
-                    <table>
-                        <div id="jss"></div>
-                        <div id="target"></div>
-                    </table>
-                </div>
+            <div class=text-center>     
+                <table class="table table-striped">
+                    @foreach($zihankis as $data)
+                        <div id="lat" hidden>{{$data['lat']}}</div>
+                        <div id="lng" hidden>{{$data['lng']}}</div>
+                        <div id="img" hidden>{{$data['img_path']}}</div>
+                    @endforeach
+                </table>
+                <div id="all" hidden>{{$zihankis}}</div>
+                <div id="all_show_result"></div>
+                <div id="target"></div>
+            </div>
         </div>
     </div>
 </div>
