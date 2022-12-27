@@ -68,7 +68,8 @@ class HomeController extends Controller
 
     public function editing()
     {
-        return view('edit');
+        $zihankis = Zihanki::get();
+        return view('edit', compact('zihankis'));
     }
 
     public function store(Request $request)

@@ -198,7 +198,7 @@ function initMap() {
     // img = 'storage/' + data[1]['img_path']
     // document.getElementById("imgpath").src = img
 
-
+    // pathを指定したらピンを押すと画像が表示されるようになった。
     function changingimg(Zpin_marker, path) {
       google.maps.event.addListener(Zpin_marker, 'click', function() {
         document.getElementById("imgpath").src = 'storage/' + path

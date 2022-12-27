@@ -1,20 +1,33 @@
 @extends('layouts.app')
 
 @section('js')
-<script src="{{ asset('js/create.js') }}"></script>
-<!-- <link rel=”stylesheet” href="{{ asset('css/create.css') }}"> -->
+<script src="{{ asset('js/edit.js') }}"></script>
+
+<script>
+   const data = @json($zihankis);
+</script>
 @endsection
 
 @section('Map')
 <div class="card-header "> 
     <div class="text-center">
-    自動販売機の位置にピンをセット
+    自動販売機
     </div>
 </div>
-<div class="card-body p-2">
+<div class="card-body p-3">
     <div class="container">
         <div class="row justify-content-center">
             <div id="map" style="height:400px"></div>
+            <div class=text-center>     
+                <table class="table table-striped">
+                    @foreach($zihankis as $data)
+                        <div id="lat" hidden>{{$data['lat']}}</div>
+                        <div id="lng" hidden>{{$data['lng']}}</div>
+                        <div id="img" hidden>{{$data['img_path']}}</div>
+                    @endforeach
+                </table>
+                <div id="target"></div>
+            </div>
         </div>
     </div>
 </div>
@@ -25,20 +38,12 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('写真登録') }}</div>
+                <div class="card-header">{{ __('商品') }}</div>
+
                 <div class="card-body">
-                    <form method='post' action="{{route('app.store')}}"enctype="multipart/form-data">
-                        @csrf
-                        <ul>
-                            <input value type="hidden" id="lat" name="lat" required>
-                            <input value type="hidden" id="lng" name="lng" required>
-                            <div id="Lat"></div>
-                            <div id="Lng"></div>
-                            <input type="file" name="image">
-                            <br>
-                            <button type='submit' class="btn btn-primary p-1">保存</button>
-                        </ul>
-                    </form>
+                    <div class="text-center">
+                        <img src= "{{ asset('storage/'.$zihankis[0]->img_path) }}" id="imgpath" class="img-fluid" alt="...">
+                    </div>
                 </div>
             </div>
         </div>

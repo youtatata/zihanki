@@ -26,8 +26,8 @@
                         <div id="img" hidden>{{$data['img_path']}}</div>
                     @endforeach
                 </table>
-                <div id="all" hidden>{{$zihankis}}</div>
-                <div id="all_show_result"></div>
+                <!-- <div id="all" hidden>{{$zihankis}}</div>
+                <div id="all_show_result"></div> -->
                 <div id="target"></div>
             </div>
         </div>
@@ -44,7 +44,9 @@
 
                 <div class="card-body">
                     <div class="text-center">
-                        <img src= "{{ asset('storage/'.$owner->img_path) }}" class="img-fluid" alt="...">
+                        <!-- <div id="path">{{$zihankis[1]['img_path']}}</div> -->
+                        <!-- <img src= "{{  asset('storage/img/ncH7qG0C5QUJS0sTTTCLghF5h3gjRXojoWgKxPXj.jpg') }}"class="img-fluid" alt="..."> -->
+                        <img src= "{{ asset('storage/'.$owner->img_path) }}" id="imgpath" class="img-fluid" alt="...">
                     </div>
                 </div>
             </div>
