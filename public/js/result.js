@@ -192,22 +192,23 @@ function initMap() {
   
     // datas = document.getElementById("img").innerHTML
     // datas = data[1]['img_path']
-    // document.getElementById("path").innerHTML = datas;
+    // datas = data.length
+    // document.getElementById("target").innerHTML = datas;
     // img = 'storage/img/ncH7qG0C5QUJS0sTTTCLghF5h3gjRXojoWgKxPXj.jpg'
     // img = 'storage/' + data[1]['img_path']
     // document.getElementById("imgpath").src = img
 
 
-    function changingimg(Zpin_marker) {
-      google.maps.event.addListener(Zpin_marker, 'click', function(event) {
-        document.getElementById("imgpath").src = 'storage/' + data[i]['img_path']
+    function changingimg(Zpin_marker, path) {
+      google.maps.event.addListener(Zpin_marker, 'click', function() {
+        document.getElementById("imgpath").src = 'storage/' + path
       });
     }
 
     // // jss=jss[3];
     // document.getElementById("all_show_result").innerHTML = all;
     // for (i = 0; i <Number(data[data.length - 1]['lat']); i++) {
-    for (i = 0; i < Number(data.length - 1); i++) {    
+    for (i = 0; i < Number(data.length); i++) {    
       //自販機ピンをセット
       var Zpin_marker = new google.maps.Marker({
       position: {lat: data[i]['lat'], lng: data[i]['lng']},
@@ -235,7 +236,7 @@ function initMap() {
       //   document.getElementById("imgpath").src = 'storage/' + data[i]['img_path']
       // });
 
-      changingimg(Zpin_marker);
+      changingimg(Zpin_marker, data[i]['img_path']);
     }
 
 }
