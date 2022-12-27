@@ -45,7 +45,7 @@ class HomeController extends Controller
     //    echo json_encode($zihankiList[1]['lat']);
         
         $zihankis = Zihanki::get();
-        $owner = Zihanki::where('id', '3')->first();
+        $owner = Zihanki::where('id', '2')->first();
         // route('ajax');
         // dd($zihankis);
         return view('home', compact('owner','zihankis'));

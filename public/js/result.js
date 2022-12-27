@@ -108,6 +108,14 @@
 // // 関数を実行
 // getAllData();
 
+// function クリックリンク(Zpin_marker[i], data[i]['img_path']){
+//   google.maps.event.addListener(
+//       クリックマーカー,
+//       'click',
+//       function(event) {
+//           window.open(data[i]['img_path']);
+//       }
+// };
 
 
 //地図の初期化
@@ -177,10 +185,29 @@ function initMap() {
       //    }
 
 
+      
+    // 文字列をint型に
+    // document.getElementById("all_show_result").innerHTML = Number(data[data.length - 1]['lat']);
+
+  
+    // datas = document.getElementById("img").innerHTML
+    // datas = data[1]['img_path']
+    // document.getElementById("path").innerHTML = datas;
+    // img = 'storage/img/ncH7qG0C5QUJS0sTTTCLghF5h3gjRXojoWgKxPXj.jpg'
+    // img = 'storage/' + data[1]['img_path']
+    // document.getElementById("imgpath").src = img
+
+
+    function changingimg(Zpin_marker) {
+      google.maps.event.addListener(Zpin_marker, 'click', function(event) {
+        document.getElementById("imgpath").src = 'storage/' + data[i]['img_path']
+      });
+    }
 
     // // jss=jss[3];
     // document.getElementById("all_show_result").innerHTML = all;
-    for (i = 0; i <Number(data[data.length - 1]['lat']); i++) {
+    // for (i = 0; i <Number(data[data.length - 1]['lat']); i++) {
+    for (i = 0; i < Number(data.length - 1); i++) {    
       //自販機ピンをセット
       var Zpin_marker = new google.maps.Marker({
       position: {lat: data[i]['lat'], lng: data[i]['lng']},
@@ -192,16 +219,23 @@ function initMap() {
           scaledSize: new google.maps.Size(32, 32),
           anchor: new google.maps.Point(16, 16)
       },
-      clickable: false, /* クリック不可 */
+      clickable: true, /* クリック不可 */
       zIndex: 0
       });
 
+      // // マーカーにクリックイベントを追加
+      // function markerEvent(i) {
+      //   Zpin_marker[i].addListener('click', function() { // マーカーをクリックしたとき
+      //     infoWindow[i].open(map, data[i]['img_path']); // 吹き出しの表示
+      // });
+      // }
+      // markerEvent(i); // マーカーにクリックイベントを追加
+   
+      // google.maps.event.addListener(Zpin_marker, 'click', function(event) {
+      //   document.getElementById("imgpath").src = 'storage/' + data[i]['img_path']
+      // });
+
+      changingimg(Zpin_marker);
     }
 
-    // 文字列をint型に
-    // document.getElementById("all_show_result").innerHTML = Number(data[data.length - 1]['lat']);
-
-
-    datas = document.getElementById("lat").innerHTML
-    document.getElementById("target").innerHTML = datas;
-  }
+}
