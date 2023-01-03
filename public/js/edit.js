@@ -28,13 +28,15 @@ function initMap() {
   
 
     //自販機ピンをセット
-  function changingimg(Zpin_marker, path) {
+  function changingimg(Zpin_marker, path, I, ID) {
     google.maps.event.addListener(Zpin_marker, 'click', function() {
-      document.getElementById("imgpath").src = 'storage/' + path
+      document.getElementById("date").innerHTML = data[I]['date'];
+      document.getElementById("imgpath").src = 'storage/' + path;
+      document.getElementById("delete-form").action = "delete/*".replace('*', ID);
     });
   }
 
-    for (i = 0; i < Number(data.length); i++) {    
+    for (i = 0; i < Number(data.length); i++) {
     var Zpin_marker = new google.maps.Marker({
     position: {lat: data[i]['lat'], lng: data[i]['lng']},
     map: map,
@@ -49,6 +51,9 @@ function initMap() {
     zIndex: 0
     });
 
-    changingimg(Zpin_marker, data[i]['img_path']);
+    changingimg(Zpin_marker, data[i]['img_path'], i, data[i]['id']);
   }
+  
+  // 下のは消していいやつ
+  document.getElementById("tes").innerHTML =data[1]['id'];
 }

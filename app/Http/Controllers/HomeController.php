@@ -91,11 +91,19 @@ class HomeController extends Controller
                     'img_path' => $path,
                     'lat' => $data['lat'],
                     'lng' => $data['lng'],
+                    'date' => $data['date'],
                 ]);
             }
         }
         // // リダイレクト処理
-        return redirect()->route('home');
+        return redirect()->route('home')->with('success', 'ピンの削除が完了しました！');
     }
 
+    public function delete(Request $request, $id)
+    {
+        $inputs = $request->all();
+        // dd($id);
+        Zihanki::where('id', $id)->delete();
+        return redirect()->route('home')->with('success', 'ピンの削除が完了しました！');
+    }
 }

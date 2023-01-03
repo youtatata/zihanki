@@ -43,9 +43,6 @@
 
 
 
-
-
-
 // function createMarker(lat, lng){
 //   //        マーカの作成
 //             var marker = new google.maps.Marker({
@@ -199,16 +196,17 @@ function initMap() {
     // document.getElementById("imgpath").src = img
 
     // pathを指定したらピンを押すと画像が表示されるようになった。
-    function changingimg(Zpin_marker, path) {
-      google.maps.event.addListener(Zpin_marker, 'click', function() {
-        document.getElementById("imgpath").src = 'storage/' + path
+    function changingimg(Zpin_marker, path, I) {
+      google.maps.event.addListener(Zpin_marker, 'click', function() {        
+        document.getElementById("date").innerHTML = data[I]['date'];
+        document.getElementById("imgpath").src = 'storage/' + path;
       });
     }
 
     // // jss=jss[3];
     // document.getElementById("all_show_result").innerHTML = all;
     // for (i = 0; i <Number(data[data.length - 1]['lat']); i++) {
-    for (i = 0; i < Number(data.length); i++) {    
+    for (i = 0; i < Number(data.length); i++) {
       //自販機ピンをセット
       var Zpin_marker = new google.maps.Marker({
       position: {lat: data[i]['lat'], lng: data[i]['lng']},
@@ -236,7 +234,7 @@ function initMap() {
       //   document.getElementById("imgpath").src = 'storage/' + data[i]['img_path']
       // });
 
-      changingimg(Zpin_marker, data[i]['img_path']);
+      changingimg(Zpin_marker, data[i]['img_path'], i);
     }
 
 }

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->double('lat', 8,6);
             $table->double('lng',9,6);
             $table->string('img_path');
+            $table->string('date');
         });
     }
 
