@@ -45,7 +45,7 @@ class HomeController extends Controller
     //    echo json_encode($zihankiList[1]['lat']);
         
         $zihankis = Zihanki::get();
-        $owner = Zihanki::where('id', '2')->first();
+        $owner = Zihanki::where('id', '8')->first();
         // route('ajax');
         // dd($zihankis);
         return view('home', compact('owner','zihankis'));
@@ -101,8 +101,10 @@ class HomeController extends Controller
 
     public function delete(Request $request, $id)
     {
-        $inputs = $request->all();
-        // dd($id);
+        $path = Zihanki::where('id', $id)->get();
+        $path = $path[0]['img_path'];
+        // dd($path);
+        \Storage::disk('public')->delete($path);
         Zihanki::where('id', $id)->delete();
         return redirect()->route('home')->with('success', 'ピンの削除が完了しました！');
     }

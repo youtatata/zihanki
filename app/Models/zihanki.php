@@ -15,6 +15,7 @@ class Zihanki extends Model
         'lat',
         'lng',
         'img_path',
+        'date',
     ];
 
     public $timestamps = false;

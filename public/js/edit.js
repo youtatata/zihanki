@@ -54,6 +54,4 @@ function initMap() {
     changingimg(Zpin_marker, data[i]['img_path'], i, data[i]['id']);
   }
   
-  // 下のは消していいやつ
-  document.getElementById("tes").innerHTML =data[1]['id'];
 }

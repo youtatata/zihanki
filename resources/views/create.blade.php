@@ -23,15 +23,17 @@
 @section('Photo')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header">{{ __('写真登録') }}</div>
                 <div class="card-body">
                     <form method='post' action="{{route('app.store')}}"enctype="multipart/form-data">
                         @csrf
                         <ul>
+                            <div>{{ \Carbon\Carbon::now()->format("Y/m/d") }}</div>
                             <input value type="hidden" id="lat" name="lat" required>
                             <input value type="hidden" id="lng" name="lng" required>
+                            <input value="{{ \Carbon\Carbon::now()->format('Y/m/d') }}" type="hidden" id="date" name="date" required>
                             <div id="Lat"></div>
                             <div id="Lng"></div>
                             <input type="file" name="image">
@@ -47,7 +49,7 @@
 @endsection
 
 @section('Container')
-<label class="text-center">マップが表示されない場合は更新ボタン</label>
+<label class="text-center">マップが表示されない場合は更新ボタンをクリック</label>
 <div class="d-flex justify-content-around">
     <a href="{{route('home')}}" class="btn btn-primary p-1">ホーム</a>
 </div>

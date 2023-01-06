@@ -50,9 +50,6 @@
                                 <button><i id='delete-button' class="fas fa-trash"></i></button>
                             </form>
                         </div>
-
-                        <div id="tes">テス</div>
-
                     </div>
                 </div>
             </div>
