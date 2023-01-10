@@ -36,8 +36,9 @@
                             <input value="{{ \Carbon\Carbon::now()->format('Y/m/d') }}" type="hidden" id="date" name="date" required>
                             <div id="Lat"></div>
                             <div id="Lng"></div>
-                            <input type="file" name="image">
+                            <input type="file" id="image" onChange="imgPreView(event)">
                             <br>
+                            <div id="preview"></div>
                             <button type='submit' class="btn btn-primary p-1">保存</button>
                         </ul>
                     </form>
