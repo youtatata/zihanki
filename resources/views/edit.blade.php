@@ -42,12 +42,12 @@
                 <div class="card-body">
                     <div class="text-center">
                         <div id="date"></div>
-                        <img src= "{{ asset('storage/'.$zihankis[0]->img_path) }}" id="imgpath" class="img-fluid" alt="...">
-                        
+                        <img src= "{{ asset('storage/'.$zihankis[2]->img_path) }}" id="imgpath" class="img-fluid" alt="...">
+                        <div id="del"></div>
                         <div class="card-header d-flex justify-content-between">
                             <form method='post' action="{{route('delete',$zihankis[0]['id']) }}" id="delete-form">
                                 @csrf
-                                <button><i id='delete-button' class="fas fa-trash"></i></button>
+                                <button id="button" disabled><i id='delete-button' class="fas fa-trash"></i></button>
                             </form>
                         </div>
                     </div>

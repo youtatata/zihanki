@@ -33,25 +33,34 @@ function initMap() {
       document.getElementById("date").innerHTML = data[I]['date'];
       document.getElementById("imgpath").src = 'storage/' + path;
       document.getElementById("delete-form").action = "delete/*".replace('*', ID);
+      document.getElementById("button").disabled = false;
     });
   }
 
-    for (i = 0; i < Number(data.length); i++) {
-    var Zpin_marker = new google.maps.Marker({
-    position: {lat: data[i]['lat'], lng: data[i]['lng']},
-    map: map,
-    icon: {
-        url: "hata.png",
-        size: new google.maps.Size(32, 32),
-        origin: new google.maps.Point(0, 0),
-        scaledSize: new google.maps.Size(32, 32),
-        anchor: new google.maps.Point(16, 16)
-    },
-    clickable: true, /* クリック不可 */
-    zIndex: 0
-    });
+  for (i = 0; i < Number(data.length); i++) {
+  var Zpin_marker = new google.maps.Marker({
+  position: {lat: data[i]['lat'], lng: data[i]['lng']},
+  map: map,
+  icon: {
+      url: "hata.png",
+      size: new google.maps.Size(32, 32),
+      origin: new google.maps.Point(0, 0),
+      scaledSize: new google.maps.Size(32, 32),
+      anchor: new google.maps.Point(16, 16)
+  },
+  clickable: true, /* クリック不可 */
+  zIndex: 0
+  });
 
-    changingimg(Zpin_marker, data[i]['img_path'], i, data[i]['id']);
+  changingimg(Zpin_marker, data[i]['img_path'], i, data[i]['id']);
   }
-  
+
+  $('#image').on('change', function(){
+    var $fr = new FileReader();
+    $fr.onload = function(){
+      $('#preview').attr('src', $fr.result);
+    }
+    $fr.readAsDataURL(this.files[0]);
+  });
 }
+
