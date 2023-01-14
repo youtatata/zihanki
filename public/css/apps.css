@@ -1,0 +1,44 @@
+body {
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image:url(../storage/public_img/tizu.jpg);
+    background-position: center center; 
+    background-repeat: no-repeat;  
+    background-attachment: fixed; 
+    background-size: cover;
+  } */
+
+.navbar {
+  margin: 0;
+    width: auto;
+    height: auto;
+    background-image:url(../storage/public_img/tizu.jpg);
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+/* body {
+  background-color: rgb(140, 202, 111);
+}
+
+.navbar {
+  margin: 0;
+  width: auto;
+  height: auto;
+  background-color: rgb(19, 19, 19);
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
+} */
+
+#contena {
+  padding: 0.5rem 3rem;
+  color: #fff;
+  border-radius: 100vh;
+  background-image: -webkit-gradient(linear, right top, left top, from(#ae880b), to(#fad72a));
+  background-image: -webkit-linear-gradient(right, #e4cf0c 0%, #ca9945 auto);
+  background-image: linear-gradient(to left, #e4db3f 0%, #d5a132 auto);
+}
+

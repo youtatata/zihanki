@@ -8,13 +8,17 @@
 </script>
 @endsection
 
+@section('css')
+<link rel="stylesheet" href="{{ asset('/css/style.css')  }}" >
+@endsection
+
 @section('Map')
-<div class="card-header "> 
+<div class="card-header" id="hed"> 
     <div class="text-center">
-    自動販売機
+        <a id="contenas">自動販売機</a>
     </div>
 </div>
-<div class="card-body p-3">
+<div class="card-body p-3" id="con">
     <div class="container">
         <div class="row justify-content-center">
             <div id="map" style="height:400px"></div>
@@ -41,8 +45,12 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">{{ __('商品') }}</div>
-                <div class="card-body">
+                <div class="card-header" id="hed">
+                    <div class="text-center">
+                        <a id="contenas">{{ __('商品') }}</a>
+                    </div>
+                </div>
+                <div class="card-body" id="con">
                     <div class="text-center">
                         <div id="date"></div>
                         <!-- <div id="path">{{$zihankis[0]['img_path']}}</div> -->

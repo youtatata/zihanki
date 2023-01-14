@@ -1,19 +1,21 @@
-label {
-    padding: 10px 40px;
-    color: #ffffff;
-    background-color: #384878;
-    cursor: pointer;
-}
-
-input[type="file"] {
-    display: none;
-}
-
-p {
-    margin: 10px 0 0 0;    
-}
-
 img{
     max-width: 75%;
     height: auto;
+}
+
+#contenas {
+    padding: 0.5rem 1rem;
+    color: #fff;
+    border-radius: 100vh;
+    background-image: -webkit-gradient(linear, right top, left top, from(#b59d78), to(#938672));
+    background-image: -webkit-linear-gradient(right, #c1ac5972 0%, #dcdc75 auto);
+    background-image: linear-gradient(to left, #0f0e0e 0%, #0d0d0d auto);
+  }
+
+#hed {
+    background-color: rgb(243, 206, 83);
+}
+
+#con {
+    background-color: rgb(231, 216, 118);
 }

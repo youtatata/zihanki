@@ -5,13 +5,17 @@
 <!-- <link rel=”stylesheet” href="{{ asset('css/create.css') }}"> -->
 @endsection
 
+@section('css')
+<link rel="stylesheet" href="{{ asset('/css/style.css')  }}" >
+@endsection
+
 @section('Map')
-<div class="card-header "> 
+<div class="card-header" id="hed"> 
     <div class="text-center">
-    自動販売機の位置にピンをセット
+        <a id="contenas">自動販売機の位置にピンをセット</a>
     </div>
 </div>
-<div class="card-body p-2">
+<div class="card-body p-2" id="con">
     <div class="container">
         <div class="row justify-content-center">
             <div id="map" style="height:400px"></div>
@@ -25,8 +29,10 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">{{ __('写真登録') }}</div>
-                <div class="card-body">
+                <div class="card-header" id="hed">
+                    <div class="text-center"><a id="contenas">{{ __('写真登録') }}</a></div>
+                </div>
+                <div class="card-body" id="con">
                     <form method='post' action="{{route('app.store')}}"enctype="multipart/form-data">
                         @csrf
                         <ul>
@@ -36,7 +42,7 @@
                             <input value="{{ \Carbon\Carbon::now()->format('Y/m/d') }}" type="hidden" id="date" name="date" required>
                             <div id="Lat"></div>
                             <div id="Lng"></div>
-                            <input type="file" id="image" onChange="imgPreView(event)">
+                            <input type="file" name="image" id="image" onChange="imgPreView(event)">
                             <br>
                             <div id="preview"></div>
                             <button type='submit' class="btn btn-primary p-1">保存</button>
