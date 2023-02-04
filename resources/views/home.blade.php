@@ -18,7 +18,7 @@
         <a id="contenas">自動販売機</a>
     </div>
 </div>
-<div class="card-body p-3" id="con">
+<div class="card-body p-0" id="con">
     <div class="container">
         <div class="row justify-content-center">
             <div id="map" style="height:400px"></div>
@@ -34,7 +34,8 @@
                 <!-- <div id="all" hidden>{{$zihankis}}</div>
                 <div id="all_show_result"></div> -->
                 <div id="target"></div>
-            </div>
+                <label class="text-center" id="pop-on">マップが表示されない場合は更新ボタンをクリック</label>
+            </div>            
         </div>
     </div>
 </div>
@@ -65,9 +66,8 @@
 @endsection
 
 @section('Container')
-<label class="text-center">マップが表示されない場合は更新ボタンをクリック</label>
 <div class="d-flex justify-content-around">
-    <a href="{{route('creative')}}" class="btn btn-primary p-1">追加</a>
-    <a href="{{route('editing')}}" class="btn btn-primary p-1">編集</a>
+    <a href="{{route('create')}}" class="btn p-1">追加</a>
+    <a href="{{route('editing')}}" class="btn p-1">編集</a>
 </div>
 @endsection

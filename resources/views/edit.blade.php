@@ -31,6 +31,7 @@
                     @endforeach
                 </table>
                 <div id="target"></div>
+                <label class="text-center">マップが表示されない場合は更新ボタンをクリック</label>
             </div>
         </div>
     </div>
@@ -48,7 +49,7 @@
                 <div class="card-body" id="con">
                     <div class="text-center">
                         <div id="date"></div>
-                        <img src= "{{ asset('storage/'.$zihankis[2]->img_path) }}" id="imgpath" class="img-fluid" alt="...">
+                        <img src= "{{ asset('storage/'.$zihankis[0]->img_path) }}" id="imgpath" class="img-fluid" alt="...">
                         <div id="del"></div>
                         <div class="card-header d-flex justify-content-between">
                             <form method='post' action="{{route('delete',$zihankis[0]['id']) }}" id="delete-form">
@@ -65,8 +66,7 @@
 @endsection
 
 @section('Container')
-<label class="text-center">マップが表示されない場合は更新ボタンをクリック</label>
 <div class="d-flex justify-content-around">
-    <a href="{{route('home')}}" class="btn btn-primary p-1">ホーム</a>
+    <a href="{{route('home')}}" class="btn p-1">ホーム</a>
 </div>
 @endsection

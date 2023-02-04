@@ -61,10 +61,10 @@ class HomeController extends Controller
         return view('edit');
     }
 
-    public function creative()
-    {
-        return view('create');
-    }
+    // public function creative()
+    // {
+    //     return view('create');
+    // }
 
     public function editing()
     {

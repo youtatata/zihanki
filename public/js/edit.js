@@ -57,3 +57,9 @@ function initMap() {
   
 }
 
+// const deleteButton = document.getElementById("deleteButton");
+// deleteButton.addEventListener("click", function() {
+//   if (confirm("削除してもよろしいですか？")) {
+//     // 削除処理
+//   }
+// });
