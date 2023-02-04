@@ -1,4 +1,4 @@
-// 3.
+3.
 //地図の初期化
 function initMap() {
     // スタイルの設定
@@ -82,4 +82,46 @@ function imgPreView(event) {
   };
  
   reader.readAsDataURL(file);
+}
+
+
+        // //中央に表示するターゲットスコープの画像設定
+        // var tgt_image = {
+        //   url: './img/icon.png',  /* 画像ファイル名(32x32 中央16x16) */
+        //   size: new google.maps.Size(32, 32),
+        //   origin: new google.maps.Point(0, 0),
+        //   anchor: new google.maps.Point(16, 16)
+        // };
+
+        // //ターゲットスコープを初期位置にセット
+        // var tgt_marker = new google.maps.Marker({
+        //   position: {lat: 35.689, lng: 139.692},
+        //   map: gmap,
+        //   icon: tgt_image,
+        //   clickable: false, /* クリック不可 */
+        //   zIndex: 0
+        // });
+
+        // //ターゲットスコープ表示
+        // tgt_marker.setMap(gmap);
+
+        // //地図の表示内容が変更されたら、センター座標取得しマーカー座標変更
+        // google.maps.event.addListener( gmap ,'bounds_changed',function(){
+        //   var pos = gmap.getCenter();
+        //   tgt_marker.setPosition(pos);
+        // });
+
+
+// function dispLatLng(){
+//   var latlng = map.getCenter();
+//   var str = "中心：" + latlng.lat() + "," + latlng.lng() + "<br>";
+
+//   var latlngBounds = map.getBounds();
+//   var swLatlng = latlngBounds.getSouthWest();
+//   str = str + "左下：" + swLatlng.lat() + "," + swLatlng.lng() + "<br>";
+
+//   var neLatlng = latlngBounds.getNorthEast();
+//   str = str + "右上：" + neLatlng.lat() + "," + neLatlng.lng();
+
+//   document.getElementById("latlng").innerHTML = str;
 }

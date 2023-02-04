@@ -61,11 +61,6 @@ class HomeController extends Controller
         return view('edit');
     }
 
-    // public function creative()
-    // {
-    //     return view('create');
-    // }
-
     public function editing()
     {
         $zihankis = Zihanki::get();
@@ -108,4 +103,5 @@ class HomeController extends Controller
         Zihanki::where('id', $id)->delete();
         return redirect()->route('home')->with('success', 'ピンの削除が完了しました！');
     }
+
 }
