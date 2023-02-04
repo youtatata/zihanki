@@ -13,13 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('zihanki', function (Blueprint $table) {
+        Schema::create('zihankis', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->double('lat', 8,6);
             $table->double('lng',9,6);
-            $table->varchar('image_type',64);
-            $table->mediumblob('image_content');
-            $table->int('image_size');
+            $table->string('img_path');
+            $table->string('date');
         });
     }
 

@@ -6,11 +6,13 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- secureについて
+    <link rel="stylesheet" href="{{ secure_asset('/css/style.css')  }}" > -->
 
     <title>{{ config('app.name', 'SimpleNote') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ '/js/app.js' }}" defer></script>
+    <!-- <script src="{{ '/js/app.js' }}" defer></script> -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     @yield('js')
     <!-- <script src="https://maps.googleapis.com/maps/api/js?language=ja&region=JP&key=[APIキーをここに入力]&callback=initMap" async defer> -->
@@ -23,46 +25,37 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link href= '/css/app.css' rel="stylesheet">
-    <link href="{{ '/css/utility.css' }}" rel="stylesheet">
+    <!-- <link href= '/css/app.css' rel="stylesheet"> -->
+    <link rel="stylesheet" href="{{ asset('/css/apps.css')  }}" >
+    <!-- <link href="{{ '/css/utility.css' }}" rel="stylesheet"> -->
     @yield('css')
 </head>
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ url('/') }}" id="contena">
                     {{ config('app.name') }}
                 </a>
             </div>
         </nav>
 
         <main class="main">
-        <div class="row" style='height: auto;'><!--62vh row justify-content-center -->
-            <div class="col-md-7 p-0">
-            <div class="card h-auto">
-                <div class="card-header "> 
-                    <div class="text-center">
-                    自動販売機
-                    </div>
-                </div>
-                <div class="card-body p-2">
-                  @yield('Map')
-                </div>
-            </div>    
-            </div> <!-- col-md-3 -->
+            <div class="row" style='height: auto;'><!--62vh row justify-content-center -->
+                <div class="col-md-7 p-4">
+                    <div class="card h-auto">
+                        @yield('Map')
+                    </div>    
+                </div> <!-- col-md-3 -->
 
-            <div class="col-md-5 p-0">
-              @yield('Photo')
-            </div>
-        </div> <!-- row justify-content-center -->
+                <div class="col-md-5 p-4">
+                    @yield('Photo')
+                </div>
+            </div> <!-- row justify-content-center -->
         </main>
 
         <div class="container" style="padding:8px 0">
-            <label class="text-center">オプション</label>
-            <div class="d-flex justify-content-around">
-                <a href="{{route('app.create')}}" class="btn btn-primary p-1">追加</a>
-            </div>
+            @yield('Container')
         </div>
 
         <footer id="footer" class="text-center my-3">
