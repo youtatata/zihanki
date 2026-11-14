@@ -1,66 +1,91 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 自販機マップ (zihanki)
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+自動販売機の位置を地図上にピンで登録し、写真を表示する Web アプリです。
 
-## About Laravel
+| 画面 | URL | 内容 |
+|---|---|---|
+| ホーム | `/` | 登録済みのピンを表示。ピンを選ぶと写真と日付を表示 |
+| 追加 | `/create` | 地図中央の照準位置に、写真付きでピンを登録 |
+| 編集 | `/edit` | ピンを選んで削除 |
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 構成
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+```
+backend/   FastAPI + SQLAlchemy + SQLite（API と画像配信）
+frontend/  React + TypeScript + Vite（画面）
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+開発時は Vite の開発サーバーが `/api` と `/uploads` へのリクエストをバックエンド (`127.0.0.1:8000`) に転送します。
 
-## Learning Laravel
+### API
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+| メソッド | パス | 内容 |
+|---|---|---|
+| GET | `/api/vending-machines` | 一覧取得 |
+| POST | `/api/vending-machines` | 登録（multipart: `lat`, `lng`, `date`, `image`。画像は JPEG/PNG/WebP・5MB 以下） |
+| DELETE | `/api/vending-machines/{id}` | 削除（画像ファイルも削除） |
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+バックエンド起動中は http://127.0.0.1:8000/docs で API ドキュメントを確認できます。
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 必要なソフトウェア
 
-## Laravel Sponsors
+- Python 3.12 以上
+- Node.js 20 以上
+- Google Maps JavaScript API のキー
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+## セットアップ
 
-### Premium Partners
+### バックエンド
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+```powershell
+cd backend
+py -3.12 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+copy .env.example .env   # 既定値のままで動作します
+```
 
-## Contributing
+### フロントエンド
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```powershell
+cd frontend
+npm install
+copy .env.example .env   # VITE_GOOGLE_MAPS_API_KEY を設定
+```
 
-## Code of Conduct
+API キーは Google Cloud Console で発行し、HTTP リファラを `http://localhost:5173/*` に制限してください。
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 起動
 
-## Security Vulnerabilities
+ターミナルを 2 つ開いて、それぞれ実行します。
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```powershell
+# バックエンド
+cd backend
+.\.venv\Scripts\python.exe -m uvicorn app.main:app --reload --port 8000
+```
 
-## License
+```powershell
+# フロントエンド
+cd frontend
+npm run dev
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+ブラウザで http://localhost:5173 を開きます。
+
+データベース (`backend/zihanki.db`) と画像 (`backend/uploads/`) は初回起動時に自動で作成されます。
+
+## テスト・チェック
+
+```powershell
+cd backend
+.\.venv\Scripts\python.exe -m pytest
+
+cd frontend
+npm run build   # 型チェック + ビルド
+npm run lint
+```
+
+## 旧実装（Laravel）
+
+リポジトリ直下の `app/`, `resources/`, `routes/` などは移行前の Laravel 9 実装で、参照用に残しています。
+新しい実装へ完全に移行した後に削除する予定です。
