@@ -1,42 +1,22 @@
 import type { ReactNode } from 'react'
-import { NavLink } from 'react-router'
-import { LOGO_URL } from '../constants'
-
-const TABS = [
-  { to: '/', label: 'マップ' },
-  { to: '/create', label: '追加' },
-  { to: '/edit', label: '編集' },
-]
+import { AppHeader } from './AppHeader'
 
 type Props = {
   mapTitle: string
   map: ReactNode
   panelTitle: string
   panel: ReactNode
-  // スマホ表示で下部パネルを開いているか（PC表示では常に表示）
+  // 狭い画面で下部パネルを開いているか（広い画面では常に表示）
   panelOpen: boolean
   onPanelOpenChange: (open: boolean) => void
   error?: string | null
 }
 
-// 全画面共通の「ヘッダー + 地図 + パネル」レイアウト
+// 地図を使う画面共通の「ヘッダー + 地図 + パネル」レイアウト
 export function Layout({ mapTitle, map, panelTitle, panel, panelOpen, onPanelOpenChange, error }: Props) {
   return (
     <div className="app">
-      <header className="app-header">
-        <span className="app-title">
-          <img className="app-logo" src={LOGO_URL} alt="" />
-          自販機マップ
-        </span>
-        <nav className="tabs">
-          {TABS.map((tab) => (
-            // NavLink は表示中の画面のリンクに active クラスを付ける
-            <NavLink key={tab.to} to={tab.to} end className="tab">
-              {tab.label}
-            </NavLink>
-          ))}
-        </nav>
-      </header>
+      <AppHeader />
 
       {error && <p className="error">{error}</p>}
 
@@ -46,7 +26,7 @@ export function Layout({ mapTitle, map, panelTitle, panel, panelOpen, onPanelOpe
           {map}
         </section>
         <section className={`card panel-card${panelOpen ? ' is-open' : ''}`}>
-          {/* PC表示では見出し、スマホ表示では開閉ボタンを出す（CSSで切り替え） */}
+          {/* 広い画面では見出し、狭い画面では開閉ボタンを出す（CSSで切り替え） */}
           <h2 className="card-title panel-heading">{panelTitle}</h2>
           <button
             type="button"

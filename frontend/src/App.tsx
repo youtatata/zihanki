@@ -3,8 +3,10 @@ import { Route, Routes } from 'react-router'
 import { ToastProvider } from './components/ToastProvider'
 import { GOOGLE_MAPS_API_KEY } from './constants'
 import { CreatePage } from './pages/CreatePage'
+import { EditMachinePage } from './pages/EditMachinePage'
 import { EditPage } from './pages/EditPage'
 import { HomePage } from './pages/HomePage'
+import { ListPage } from './pages/ListPage'
 
 export default function App() {
   if (!GOOGLE_MAPS_API_KEY) {
@@ -22,8 +24,10 @@ export default function App() {
       <ToastProvider>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/list" element={<ListPage />} />
           <Route path="/create" element={<CreatePage />} />
           <Route path="/edit" element={<EditPage />} />
+          <Route path="/edit/:id" element={<EditMachinePage />} />
         </Routes>
       </ToastProvider>
     </APIProvider>

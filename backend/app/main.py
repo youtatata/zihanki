@@ -5,6 +5,7 @@ from fastapi.staticfiles import StaticFiles
 
 from app.config import UPLOADS_URL_PREFIX, settings
 from app.database import Base, engine
+from app.migrations import add_missing_columns
 from app.routers import vending_machines
 
 
@@ -12,6 +13,7 @@ from app.routers import vending_machines
 async def lifespan(_app: FastAPI):
     # 小規模アプリのため、マイグレーションツールは使わず起動時にテーブルを作成する
     Base.metadata.create_all(engine)
+    add_missing_columns(engine)
     yield
 
 

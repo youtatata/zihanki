@@ -1,16 +1,15 @@
-import { AdvancedMarker, Map } from '@vis.gl/react-google-maps'
-import type { ReactNode } from 'react'
+import { Map, useMap } from '@vis.gl/react-google-maps'
+import { useEffect, type ReactNode } from 'react'
 import {
   CROSSHAIR_ICON_URL,
   CROSSHAIR_SIZE_PX,
+  FOCUS_ZOOM,
   MAP_DEFAULT_CENTER,
   MAP_DEFAULT_ZOOM,
-  MAP_ICON_SIZE_PX,
   MAP_ID,
-  PIN_ICON_URL,
-  SELECTED_PIN_SIZE_PX,
 } from '../constants'
 import type { LatLng, VendingMachine } from '../types'
+import { ClusteredPins } from './ClusteredPins'
 import { CurrentLocationButton } from './CurrentLocationButton'
 
 type Props = {
@@ -19,10 +18,12 @@ type Props = {
   onSelect?: (machine: VendingMachine) => void
   // 指定すると地図中央に照準を表示し、中心座標の変化を通知する
   onCenterChange?: (center: LatLng) => void
+  // 指定すると、その位置を拡大して表示する（一覧から来たとき・編集時）
+  focus?: LatLng
   children?: ReactNode // 地図の上に重ねる案内表示など
 }
 
-export function MapView({ machines = [], selectedId, onSelect, onCenterChange, children }: Props) {
+export function MapView({ machines = [], selectedId, onSelect, onCenterChange, focus, children }: Props) {
   return (
     <div className="map-container">
       <Map
@@ -32,25 +33,9 @@ export function MapView({ machines = [], selectedId, onSelect, onCenterChange, c
         gestureHandling="greedy"
         onCameraChanged={onCenterChange && ((e) => onCenterChange(e.detail.center))}
       >
-        {machines.map((m) => {
-          const selected = m.id === selectedId
-          const size = selected ? SELECTED_PIN_SIZE_PX : MAP_ICON_SIZE_PX
-          return (
-            <AdvancedMarker
-              key={m.id}
-              position={{ lat: m.lat, lng: m.lng }}
-              onClick={() => onSelect?.(m)}
-              // ピンの先端（画像の下端中央）が登録位置を指す
-              anchorLeft="-50%"
-              anchorTop="-100%"
-              // 選択中のピンを他のピンより手前に出す
-              zIndex={selected ? 1 : 0}
-            >
-              <img className="map-pin" src={PIN_ICON_URL} width={size} alt="" />
-            </AdvancedMarker>
-          )
-        })}
+        <ClusteredPins machines={machines} selectedId={selectedId} onSelect={onSelect} />
         <CurrentLocationButton />
+        {focus && <MapFocus position={focus} />}
       </Map>
       {onCenterChange && (
         <img
@@ -64,4 +49,18 @@ export function MapView({ machines = [], selectedId, onSelect, onCenterChange, c
       {children}
     </div>
   )
+}
+
+// 指定位置へ地図を移動して拡大する。位置の値が変わったときだけ動かす
+function MapFocus({ position }: { position: LatLng }) {
+  const map = useMap()
+  const { lat, lng } = position
+
+  useEffect(() => {
+    if (!map) return
+    map.setCenter({ lat, lng })
+    map.setZoom(FOCUS_ZOOM)
+  }, [map, lat, lng])
+
+  return null
 }

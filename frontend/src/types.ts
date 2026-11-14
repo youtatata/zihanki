@@ -3,9 +3,20 @@ export type LatLng = {
   lng: number
 }
 
-export type VendingMachine = LatLng & {
-  id: number
-  image_url: string
+// 支払い方法：現金／交通系IC・電子マネー／QRコード／クレジット
+export type PaymentMethod = 'cash' | 'ic' | 'qr' | 'credit'
+
+// 利用者が入力する詳細情報（位置と写真を除く）
+export type MachineDetails = {
   date: string // YYYY-MM-DD
-  created_at: string
+  name: string
+  memo: string
+  payment_methods: PaymentMethod[]
 }
+
+export type VendingMachine = LatLng &
+  MachineDetails & {
+    id: number
+    image_url: string
+    created_at: string
+  }

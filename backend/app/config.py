@@ -10,6 +10,10 @@ ALLOWED_IMAGE_TYPES = {
 }
 MAX_IMAGE_BYTES = 5 * 1024 * 1024  # 5MB
 
+# 詳細情報の文字数上限
+NAME_MAX_LENGTH = 50
+MEMO_MAX_LENGTH = 500
+
 # 画像を配信するURLのプレフィックス
 UPLOADS_URL_PREFIX = "/uploads"
 

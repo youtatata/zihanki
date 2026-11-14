@@ -1,4 +1,4 @@
-from app.config import MAX_IMAGE_BYTES
+from app.config import MAX_IMAGE_BYTES, NAME_MAX_LENGTH
 
 API = "/api/vending-machines"
 VALID_FORM = {"lat": "34.987594", "lng": "135.7506212", "date": "2026-11-14"}
@@ -61,4 +61,93 @@ def test_delete_removes_record_and_file(client, upload_dir):
 
 def test_delete_unknown_id_returns_404(client):
     res = client.delete(f"{API}/999")
+    assert res.status_code == 404
+
+
+def test_create_defaults_details_to_empty(client):
+    body = post_machine(client).json()
+    assert body["name"] == ""
+    assert body["memo"] == ""
+    assert body["payment_methods"] == []
+
+
+def test_create_with_details(client):
+    form = {**VALID_FORM, "name": "  駅前の自販機  ", "memo": "冷たいおしるこあり", "payment_methods": ["cash", "ic"]}
+    body = post_machine(client, form=form).json()
+    assert body["name"] == "駅前の自販機"  # 前後の空白は取り除く
+    assert body["memo"] == "冷たいおしるこあり"
+    assert body["payment_methods"] == ["cash", "ic"]
+    assert client.get(API).json()[0]["payment_methods"] == ["cash", "ic"]
+
+
+def test_create_rejects_unknown_payment_method(client, upload_dir):
+    res = post_machine(client, form={**VALID_FORM, "payment_methods": ["bitcoin"]})
+    assert res.status_code == 422
+    assert list(upload_dir.iterdir()) == []
+
+
+def test_create_rejects_too_long_name(client):
+    res = post_machine(client, form={**VALID_FORM, "name": "あ" * (NAME_MAX_LENGTH + 1)})
+    assert res.status_code == 422
+
+
+UPDATED_FORM = {
+    "lat": "35.0",
+    "lng": "135.0",
+    "date": "2026-12-01",
+    "name": "新しい名前",
+    "memo": "メモ",
+    "payment_methods": ["qr"],
+}
+JPEG_BYTES = b"\xff\xd8\xff" + b"1" * 100
+
+
+def test_update_details_keeps_image(client, upload_dir):
+    created = post_machine(client).json()
+
+    res = client.put(f"{API}/{created['id']}", data=UPDATED_FORM)
+    assert res.status_code == 200
+    body = res.json()
+    assert (body["lat"], body["lng"], body["date"]) == (35.0, 135.0, "2026-12-01")
+    assert (body["name"], body["memo"], body["payment_methods"]) == ("新しい名前", "メモ", ["qr"])
+    assert body["image_url"] == created["image_url"]
+    assert len(list(upload_dir.iterdir())) == 1
+
+
+def test_update_can_clear_payment_methods(client):
+    created = post_machine(client, form={**VALID_FORM, "payment_methods": ["cash"]}).json()
+    res = client.put(f"{API}/{created['id']}", data=VALID_FORM)
+    assert res.json()["payment_methods"] == []
+
+
+def test_update_replaces_image_and_deletes_old_file(client, upload_dir):
+    created = post_machine(client).json()
+
+    res = client.put(
+        f"{API}/{created['id']}",
+        data=UPDATED_FORM,
+        files={"image": ("b.jpg", JPEG_BYTES, "image/jpeg")},
+    )
+    assert res.status_code == 200
+    new_filename = res.json()["image_url"].removeprefix("/uploads/")
+    assert new_filename != created["image_url"].removeprefix("/uploads/")
+    assert [p.name for p in upload_dir.iterdir()] == [new_filename]
+    assert (upload_dir / new_filename).read_bytes() == JPEG_BYTES
+
+
+def test_update_rejects_invalid_image_and_keeps_old(client, upload_dir):
+    created = post_machine(client).json()
+
+    res = client.put(
+        f"{API}/{created['id']}",
+        data=UPDATED_FORM,
+        files={"image": ("a.txt", b"hello", "text/plain")},
+    )
+    assert res.status_code == 422
+    assert client.get(API).json()[0] == created
+    assert len(list(upload_dir.iterdir())) == 1
+
+
+def test_update_unknown_id_returns_404(client):
+    res = client.put(f"{API}/999", data=UPDATED_FORM)
     assert res.status_code == 404

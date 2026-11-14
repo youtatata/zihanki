@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router'
 import { deleteVendingMachine } from '../api/vendingMachines'
 import { ConfirmDialog } from '../components/ConfirmDialog'
 import { Layout } from '../components/Layout'
@@ -40,7 +41,7 @@ export function EditPage() {
 
   return (
     <Layout
-      mapTitle="削除するピンを選択"
+      mapTitle="編集・削除するピンを選択"
       map={
         <MapView machines={machines} selectedId={selected?.id} onSelect={handleSelect}>
           <MapNotice loading={loading} isEmpty={!error && machines.length === 0} />
@@ -51,9 +52,14 @@ export function EditPage() {
         <PhotoPanel machine={selected}>
           {selected && (
             <>
-              <button type="button" className="button danger" onClick={() => setConfirming(true)}>
-                削除
-              </button>
+              <div className="panel-actions">
+                <Link to={`/edit/${selected.id}`} className="button primary">
+                  編集する
+                </Link>
+                <button type="button" className="button danger" onClick={() => setConfirming(true)}>
+                  削除
+                </button>
+              </div>
               <ConfirmDialog
                 open={confirming}
                 title="このピンを削除しますか？"
@@ -62,7 +68,7 @@ export function EditPage() {
                 onConfirm={() => handleDelete(selected)}
                 onCancel={() => setConfirming(false)}
               >
-                <p>{selected.date} の登録</p>
+                <p>{selected.name || `${selected.date} の登録`}</p>
                 <img className="photo confirm-photo" src={selected.image_url} alt={`${selected.date} の自販機`} />
                 <p className="muted">削除すると元に戻せません。</p>
               </ConfirmDialog>

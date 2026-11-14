@@ -1,3 +1,5 @@
+import type { PaymentMethod } from './types'
+
 export const GOOGLE_MAPS_API_KEY: string = import.meta.env.VITE_GOOGLE_MAPS_API_KEY ?? ''
 
 // Advanced Marker に必要なマップID。DEMO_MAP_ID は Google が提供する開発用の値
@@ -15,6 +17,10 @@ export const CROSSHAIR_SIZE_PX = 40
 export const MAP_ICON_SIZE_PX = 32
 // 選択中のピンは大きく表示して目立たせる
 export const SELECTED_PIN_SIZE_PX = 48
+// まとめ表示の丸を、個別のピンより手前に出す
+export const CLUSTER_Z_INDEX = 1000
+// 一覧から選んだとき・編集するときの地図の拡大率
+export const FOCUS_ZOOM = 17
 
 // 画面に表示する緯度・経度の小数点以下の桁数
 export const COORD_DISPLAY_DIGITS = 5
@@ -25,6 +31,17 @@ export const GEOLOCATION_TIMEOUT_MS = 10_000
 
 // トースト通知を表示しておく時間
 export const TOAST_DURATION_MS = 3_000
+
+// 詳細情報（バックエンドの制限と合わせる）
+export const NAME_MAX_LENGTH = 50
+export const MEMO_MAX_LENGTH = 500
+export const PAYMENT_METHOD_LABELS: Record<PaymentMethod, string> = {
+  cash: '現金',
+  ic: '交通系IC・電子マネー',
+  qr: 'QRコード',
+  credit: 'クレジット',
+}
+export const PAYMENT_METHODS = Object.keys(PAYMENT_METHOD_LABELS) as PaymentMethod[]
 
 // 登録できる画像（バックエンドの制限と合わせる）
 export const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp']

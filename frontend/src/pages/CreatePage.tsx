@@ -1,13 +1,14 @@
-import { useEffect, useState, type FormEvent } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { createVendingMachine } from '../api/vendingMachines'
-import { ImageDropZone } from '../components/ImageDropZone'
 import { Layout } from '../components/Layout'
+import { MachineForm } from '../components/MachineForm'
 import { MapView } from '../components/MapView'
 import { StepGuide } from '../components/StepGuide'
 import { COORD_DISPLAY_DIGITS, MAP_DEFAULT_CENTER } from '../constants'
 import { useToast } from '../contexts/toast'
-import type { LatLng } from '../types'
+import { useImageFile } from '../hooks/useImageFile'
+import type { LatLng, MachineDetails } from '../types'
 import { errorMessage } from '../utils/errorMessage'
 
 // ローカル時刻での今日の日付（YYYY-MM-DD）。toISOString は UTC になるため使わない
@@ -27,32 +28,22 @@ export function CreatePage() {
   const navigate = useNavigate()
   const showToast = useToast()
   const [position, setPosition] = useState<LatLng>(MAP_DEFAULT_CENTER)
-  const [image, setImage] = useState<File | null>(null)
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+  const [details, setDetails] = useState<MachineDetails>(() => ({
+    date: todayString(),
+    name: '',
+    memo: '',
+    payment_methods: [],
+  }))
+  const { image, previewUrl, setImage } = useImageFile()
   const [submitting, setSubmitting] = useState(false)
-  // 追加画面はフォームが主役なので、スマホ表示でも最初からパネルを開いておく
+  // 追加画面はフォームが主役なので、狭い画面でも最初からパネルを開いておく
   const [panelOpen, setPanelOpen] = useState(true)
-  const date = todayString()
 
-  // 古いプレビューURLは差し替え時・画面を離れる時に解放する
-  useEffect(() => {
-    return () => {
-      if (previewUrl) URL.revokeObjectURL(previewUrl)
-    }
-  }, [previewUrl])
-
-  function handleImageChange(file: File) {
-    setImage(file)
-    setPreviewUrl(URL.createObjectURL(file))
-  }
-
-  async function handleSubmit(e: FormEvent) {
-    e.preventDefault()
+  async function handleSubmit() {
     if (!image) return
-
     setSubmitting(true)
     try {
-      await createVendingMachine(position, date, image)
+      await createVendingMachine(position, details, image)
       showToast('保存しました')
       navigate('/')
     } catch (err) {
@@ -73,21 +64,18 @@ export function CreatePage() {
       map={<MapView onCenterChange={setPosition} />}
       panelTitle="写真登録"
       panel={
-        <form className="create-form" onSubmit={handleSubmit}>
-          <StepGuide steps={steps} />
-          <dl className="create-info">
-            <dt>登録日</dt>
-            <dd>{date}</dd>
-            <dt>緯度</dt>
-            <dd>{position.lat.toFixed(COORD_DISPLAY_DIGITS)}</dd>
-            <dt>経度</dt>
-            <dd>{position.lng.toFixed(COORD_DISPLAY_DIGITS)}</dd>
-          </dl>
-          <ImageDropZone previewUrl={previewUrl} onFileChange={handleImageChange} />
-          <button type="submit" className="button primary" disabled={!image || submitting}>
-            {submitting ? '保存中…' : '保存'}
-          </button>
-        </form>
+        <MachineForm
+          guide={<StepGuide steps={steps} />}
+          position={position}
+          details={details}
+          onDetailsChange={setDetails}
+          imageUrl={previewUrl}
+          onImageChange={setImage}
+          submitLabel="保存"
+          canSubmit={image !== null}
+          submitting={submitting}
+          onSubmit={handleSubmit}
+        />
       }
       panelOpen={panelOpen}
       onPanelOpenChange={setPanelOpen}

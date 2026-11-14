@@ -4,9 +4,11 @@
 
 | 画面 | URL | 内容 |
 |---|---|---|
-| ホーム | `/` | 登録済みのピンを表示。ピンを選ぶと写真と日付を表示 |
-| 追加 | `/create` | 地図中央の照準位置に、写真付きでピンを登録 |
-| 編集 | `/edit` | ピンを選んで削除 |
+| ホーム | `/` | 登録済みのピンを表示（密集時は件数の丸にまとめる）。ピンを選ぶと写真と詳細を表示 |
+| 一覧 | `/list` | 登録内容を写真付きカードで一覧表示。選ぶとホームでその場所を表示 |
+| 追加 | `/create` | 地図中央の照準位置に、写真と詳細情報付きでピンを登録 |
+| 編集 | `/edit` | ピンを選んで編集・削除 |
+| ピン編集 | `/edit/:id` | 位置・写真・詳細情報を修正 |
 
 ## 構成
 
@@ -22,8 +24,13 @@ frontend/  React + TypeScript + Vite（画面）
 | メソッド | パス | 内容 |
 |---|---|---|
 | GET | `/api/vending-machines` | 一覧取得 |
-| POST | `/api/vending-machines` | 登録（multipart: `lat`, `lng`, `date`, `image`。画像は JPEG/PNG/WebP・5MB 以下） |
+| POST | `/api/vending-machines` | 登録（multipart。下記の項目 + `image`） |
+| PUT | `/api/vending-machines/{id}` | 更新（multipart。下記の項目。`image` は送ったときだけ差し替え、古い画像は削除） |
 | DELETE | `/api/vending-machines/{id}` | 削除（画像ファイルも削除） |
+
+登録・更新の項目: `lat`, `lng`, `date`（必須）、`name`（50文字以内）、`memo`（500文字以内）、`payment_methods`（`cash` / `ic` / `qr` / `credit` を複数指定可）。画像は JPEG/PNG/WebP・5MB 以下。
+
+後から追加した列は、バックエンド起動時に既存のデータベースへ自動で追加されます（`app/migrations.py`）。
 
 バックエンド起動中は http://127.0.0.1:8000/docs で API ドキュメントを確認できます。
 
