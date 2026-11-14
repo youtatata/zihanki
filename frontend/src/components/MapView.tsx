@@ -1,4 +1,5 @@
 import { AdvancedMarker, Map } from '@vis.gl/react-google-maps'
+import type { ReactNode } from 'react'
 import {
   CROSSHAIR_ICON_URL,
   MAP_DEFAULT_CENTER,
@@ -6,17 +7,21 @@ import {
   MAP_ICON_SIZE_PX,
   MAP_ID,
   PIN_ICON_URL,
+  SELECTED_PIN_SIZE_PX,
 } from '../constants'
 import type { LatLng, VendingMachine } from '../types'
+import { CurrentLocationButton } from './CurrentLocationButton'
 
 type Props = {
   machines?: VendingMachine[]
+  selectedId?: number
   onSelect?: (machine: VendingMachine) => void
   // 指定すると地図中央に照準を表示し、中心座標の変化を通知する
   onCenterChange?: (center: LatLng) => void
+  children?: ReactNode // 地図の上に重ねる案内表示など
 }
 
-export function MapView({ machines = [], onSelect, onCenterChange }: Props) {
+export function MapView({ machines = [], selectedId, onSelect, onCenterChange, children }: Props) {
   return (
     <div className="map-container">
       <Map
@@ -26,17 +31,24 @@ export function MapView({ machines = [], onSelect, onCenterChange }: Props) {
         gestureHandling="greedy"
         onCameraChanged={onCenterChange && ((e) => onCenterChange(e.detail.center))}
       >
-        {machines.map((m) => (
-          <AdvancedMarker
-            key={m.id}
-            position={{ lat: m.lat, lng: m.lng }}
-            onClick={() => onSelect?.(m)}
-            anchorLeft="-50%"
-            anchorTop="-50%"
-          >
-            <img src={PIN_ICON_URL} width={MAP_ICON_SIZE_PX} height={MAP_ICON_SIZE_PX} alt="" />
-          </AdvancedMarker>
-        ))}
+        {machines.map((m) => {
+          const selected = m.id === selectedId
+          const size = selected ? SELECTED_PIN_SIZE_PX : MAP_ICON_SIZE_PX
+          return (
+            <AdvancedMarker
+              key={m.id}
+              position={{ lat: m.lat, lng: m.lng }}
+              onClick={() => onSelect?.(m)}
+              anchorLeft="-50%"
+              anchorTop="-50%"
+              // 選択中のピンを他のピンより手前に出す
+              zIndex={selected ? 1 : 0}
+            >
+              <img src={PIN_ICON_URL} width={size} height={size} alt="" />
+            </AdvancedMarker>
+          )
+        })}
+        <CurrentLocationButton />
       </Map>
       {onCenterChange && (
         <img
@@ -47,6 +59,7 @@ export function MapView({ machines = [], onSelect, onCenterChange }: Props) {
           alt=""
         />
       )}
+      {children}
     </div>
   )
 }

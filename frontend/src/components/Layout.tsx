@@ -1,23 +1,37 @@
 import type { ReactNode } from 'react'
-import { Link } from 'react-router'
+import { NavLink } from 'react-router'
 
-export type NavLink = { to: string; label: string }
+const TABS = [
+  { to: '/', label: 'マップ' },
+  { to: '/create', label: '追加' },
+  { to: '/edit', label: '編集' },
+]
 
 type Props = {
   mapTitle: string
   map: ReactNode
   panelTitle: string
   panel: ReactNode
-  links: NavLink[]
+  // スマホ表示で下部パネルを開いているか（PC表示では常に表示）
+  panelOpen: boolean
+  onPanelOpenChange: (open: boolean) => void
   error?: string | null
 }
 
-// 全画面共通の「地図 + 右パネル + 下部リンク」レイアウト
-export function Layout({ mapTitle, map, panelTitle, panel, links, error }: Props) {
+// 全画面共通の「ヘッダー + 地図 + パネル」レイアウト
+export function Layout({ mapTitle, map, panelTitle, panel, panelOpen, onPanelOpenChange, error }: Props) {
   return (
     <div className="app">
       <header className="app-header">
-        <Link to="/">自販機マップ</Link>
+        <span className="app-title">自販機マップ</span>
+        <nav className="tabs">
+          {TABS.map((tab) => (
+            // NavLink は表示中の画面のリンクに active クラスを付ける
+            <NavLink key={tab.to} to={tab.to} end className="tab">
+              {tab.label}
+            </NavLink>
+          ))}
+        </nav>
       </header>
 
       {error && <p className="error">{error}</p>}
@@ -27,19 +41,23 @@ export function Layout({ mapTitle, map, panelTitle, panel, links, error }: Props
           <h2 className="card-title">{mapTitle}</h2>
           {map}
         </section>
-        <section className="card panel-card">
-          <h2 className="card-title">{panelTitle}</h2>
+        <section className={`card panel-card${panelOpen ? ' is-open' : ''}`}>
+          {/* PC表示では見出し、スマホ表示では開閉ボタンを出す（CSSで切り替え） */}
+          <h2 className="card-title panel-heading">{panelTitle}</h2>
+          <button
+            type="button"
+            className="card-title sheet-toggle"
+            aria-expanded={panelOpen}
+            onClick={() => onPanelOpenChange(!panelOpen)}
+          >
+            {panelTitle}
+            <span className="sheet-toggle-icon" aria-hidden="true">
+              {panelOpen ? '▼' : '▲'}
+            </span>
+          </button>
           <div className="card-body">{panel}</div>
         </section>
       </main>
-
-      <nav className="app-nav">
-        {links.map((link) => (
-          <Link key={link.to} to={link.to} className="button">
-            {link.label}
-          </Link>
-        ))}
-      </nav>
     </div>
   )
 }

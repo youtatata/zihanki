@@ -8,6 +8,8 @@ export function useVendingMachines() {
   const [machines, setMachines] = useState<VendingMachine[]>([])
   const [error, setError] = useState<string | null>(null)
   const [version, setVersion] = useState(0)
+  // 取得が完了した version。version と一致しない間は読み込み中
+  const [loadedVersion, setLoadedVersion] = useState(-1)
 
   useEffect(() => {
     // 画面遷移などで古いリクエストの結果が後から届いても反映しない
@@ -17,9 +19,12 @@ export function useVendingMachines() {
         if (ignore) return
         setMachines(data)
         setError(null)
+        setLoadedVersion(version)
       },
       (e) => {
-        if (!ignore) setError(errorMessage(e))
+        if (ignore) return
+        setError(errorMessage(e))
+        setLoadedVersion(version)
       },
     )
     return () => {
@@ -28,6 +33,7 @@ export function useVendingMachines() {
   }, [version])
 
   const reload = useCallback(() => setVersion((v) => v + 1), [])
+  const loading = loadedVersion !== version
 
-  return { machines, error, reload }
+  return { machines, error, loading, reload }
 }

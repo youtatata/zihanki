@@ -10,6 +10,19 @@ export const MAP_DEFAULT_ZOOM = 12
 export const PIN_ICON_URL = '/hata.png'
 export const CROSSHAIR_ICON_URL = '/icon.png'
 export const MAP_ICON_SIZE_PX = 32
+// 選択中のピンは大きく表示して目立たせる
+export const SELECTED_PIN_SIZE_PX = 48
 
 // 画面に表示する緯度・経度の小数点以下の桁数
 export const COORD_DISPLAY_DIGITS = 5
+
+// 現在地ボタン：移動後のズームと、位置取得を諦めるまでの時間
+export const CURRENT_LOCATION_ZOOM = 17
+export const GEOLOCATION_TIMEOUT_MS = 10_000
+
+// トースト通知を表示しておく時間
+export const TOAST_DURATION_MS = 3_000
+
+// 登録できる画像（バックエンドの制限と合わせる）
+export const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp']
+export const MAX_IMAGE_BYTES = 5 * 1024 * 1024

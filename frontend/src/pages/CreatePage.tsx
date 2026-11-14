@@ -1,13 +1,14 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router'
 import { createVendingMachine } from '../api/vendingMachines'
+import { ImageDropZone } from '../components/ImageDropZone'
 import { Layout } from '../components/Layout'
 import { MapView } from '../components/MapView'
+import { StepGuide } from '../components/StepGuide'
 import { COORD_DISPLAY_DIGITS, MAP_DEFAULT_CENTER } from '../constants'
+import { useToast } from '../contexts/toast'
 import type { LatLng } from '../types'
 import { errorMessage } from '../utils/errorMessage'
-
-const ACCEPTED_IMAGE_TYPES = 'image/jpeg,image/png,image/webp'
 
 // ローカル時刻での今日の日付（YYYY-MM-DD）。toISOString は UTC になるため使わない
 function todayString(): string {
@@ -16,13 +17,21 @@ function todayString(): string {
   return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`
 }
 
+// 表示桁数で比べて、地図を初期位置から動かしたかを判定する
+function isMoved(position: LatLng): boolean {
+  const format = (p: LatLng) => `${p.lat.toFixed(COORD_DISPLAY_DIGITS)},${p.lng.toFixed(COORD_DISPLAY_DIGITS)}`
+  return format(position) !== format(MAP_DEFAULT_CENTER)
+}
+
 export function CreatePage() {
   const navigate = useNavigate()
+  const showToast = useToast()
   const [position, setPosition] = useState<LatLng>(MAP_DEFAULT_CENTER)
   const [image, setImage] = useState<File | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
-  const [error, setError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
+  // 追加画面はフォームが主役なので、スマホ表示でも最初からパネルを開いておく
+  const [panelOpen, setPanelOpen] = useState(true)
   const date = todayString()
 
   // 古いプレビューURLは差し替え時・画面を離れる時に解放する
@@ -32,9 +41,9 @@ export function CreatePage() {
     }
   }, [previewUrl])
 
-  function handleImageChange(file: File | null) {
+  function handleImageChange(file: File) {
     setImage(file)
-    setPreviewUrl(file ? URL.createObjectURL(file) : null)
+    setPreviewUrl(URL.createObjectURL(file))
   }
 
   async function handleSubmit(e: FormEvent) {
@@ -44,12 +53,19 @@ export function CreatePage() {
     setSubmitting(true)
     try {
       await createVendingMachine(position, date, image)
+      showToast('保存しました')
       navigate('/')
     } catch (err) {
-      setError(errorMessage(err))
+      showToast(`保存できませんでした：${errorMessage(err)}`, 'error')
       setSubmitting(false)
     }
   }
+
+  const steps = [
+    { label: '地図を動かして照準を自販機に合わせる', done: isMoved(position) },
+    { label: '写真を選ぶ', done: image !== null },
+    { label: '保存する', done: false },
+  ]
 
   return (
     <Layout
@@ -58,23 +74,23 @@ export function CreatePage() {
       panelTitle="写真登録"
       panel={
         <form className="create-form" onSubmit={handleSubmit}>
-          <p>{date}</p>
-          <p>緯度: {position.lat.toFixed(COORD_DISPLAY_DIGITS)}</p>
-          <p>経度: {position.lng.toFixed(COORD_DISPLAY_DIGITS)}</p>
-          <input
-            type="file"
-            accept={ACCEPTED_IMAGE_TYPES}
-            required
-            onChange={(e) => handleImageChange(e.target.files?.[0] ?? null)}
-          />
-          {previewUrl && <img className="photo" src={previewUrl} alt="プレビュー" />}
+          <StepGuide steps={steps} />
+          <dl className="create-info">
+            <dt>登録日</dt>
+            <dd>{date}</dd>
+            <dt>緯度</dt>
+            <dd>{position.lat.toFixed(COORD_DISPLAY_DIGITS)}</dd>
+            <dt>経度</dt>
+            <dd>{position.lng.toFixed(COORD_DISPLAY_DIGITS)}</dd>
+          </dl>
+          <ImageDropZone previewUrl={previewUrl} onFileChange={handleImageChange} />
           <button type="submit" className="button primary" disabled={!image || submitting}>
-            保存
+            {submitting ? '保存中…' : '保存'}
           </button>
         </form>
       }
-      links={[{ to: '/', label: 'ホーム' }]}
-      error={error}
+      panelOpen={panelOpen}
+      onPanelOpenChange={setPanelOpen}
     />
   )
 }

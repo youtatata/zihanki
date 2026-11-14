@@ -1,5 +1,6 @@
-import type { ReactNode } from 'react'
+import { useState, type ReactNode } from 'react'
 import type { VendingMachine } from '../types'
+import { PhotoLightbox } from './PhotoLightbox'
 
 type Props = {
   machine: VendingMachine | null
@@ -7,15 +8,21 @@ type Props = {
 }
 
 export function PhotoPanel({ machine, children }: Props) {
+  const [zoomed, setZoomed] = useState(false)
+
   if (!machine) {
     return <p className="muted">地図のピンを選択すると写真が表示されます</p>
   }
 
+  const alt = `${machine.date} の自販機`
   return (
     <div className="photo-panel">
       <p>{machine.date}</p>
-      <img className="photo" src={machine.image_url} alt={`${machine.date} の自販機`} />
+      <button type="button" className="photo-button" title="クリックで拡大" onClick={() => setZoomed(true)}>
+        <img className="photo" src={machine.image_url} alt={alt} />
+      </button>
       {children}
+      <PhotoLightbox open={zoomed} src={machine.image_url} alt={alt} onClose={() => setZoomed(false)} />
     </div>
   )
 }

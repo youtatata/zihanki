@@ -1,5 +1,6 @@
 import { APIProvider } from '@vis.gl/react-google-maps'
 import { Route, Routes } from 'react-router'
+import { ToastProvider } from './components/ToastProvider'
 import { GOOGLE_MAPS_API_KEY } from './constants'
 import { CreatePage } from './pages/CreatePage'
 import { EditPage } from './pages/EditPage'
@@ -17,11 +18,14 @@ export default function App() {
 
   return (
     <APIProvider apiKey={GOOGLE_MAPS_API_KEY} language="ja" region="JP">
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/create" element={<CreatePage />} />
-        <Route path="/edit" element={<EditPage />} />
-      </Routes>
+      {/* 画面を切り替えても通知が消えないよう、ルーティングの外側に置く */}
+      <ToastProvider>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/create" element={<CreatePage />} />
+          <Route path="/edit" element={<EditPage />} />
+        </Routes>
+      </ToastProvider>
     </APIProvider>
   )
 }
