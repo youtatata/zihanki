@@ -2,6 +2,7 @@ import { AdvancedMarker, Map } from '@vis.gl/react-google-maps'
 import type { ReactNode } from 'react'
 import {
   CROSSHAIR_ICON_URL,
+  CROSSHAIR_SIZE_PX,
   MAP_DEFAULT_CENTER,
   MAP_DEFAULT_ZOOM,
   MAP_ICON_SIZE_PX,
@@ -39,12 +40,13 @@ export function MapView({ machines = [], selectedId, onSelect, onCenterChange, c
               key={m.id}
               position={{ lat: m.lat, lng: m.lng }}
               onClick={() => onSelect?.(m)}
+              // ピンの先端（画像の下端中央）が登録位置を指す
               anchorLeft="-50%"
-              anchorTop="-50%"
+              anchorTop="-100%"
               // 選択中のピンを他のピンより手前に出す
               zIndex={selected ? 1 : 0}
             >
-              <img src={PIN_ICON_URL} width={size} height={size} alt="" />
+              <img className="map-pin" src={PIN_ICON_URL} width={size} alt="" />
             </AdvancedMarker>
           )
         })}
@@ -54,8 +56,8 @@ export function MapView({ machines = [], selectedId, onSelect, onCenterChange, c
         <img
           className="map-crosshair"
           src={CROSSHAIR_ICON_URL}
-          width={MAP_ICON_SIZE_PX}
-          height={MAP_ICON_SIZE_PX}
+          width={CROSSHAIR_SIZE_PX}
+          height={CROSSHAIR_SIZE_PX}
           alt=""
         />
       )}

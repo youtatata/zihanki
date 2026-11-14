@@ -7,8 +7,11 @@ export const MAP_ID = 'DEMO_MAP_ID'
 export const MAP_DEFAULT_CENTER = { lat: 34.987594, lng: 135.7506212 }
 export const MAP_DEFAULT_ZOOM = 12
 
-export const PIN_ICON_URL = '/hata.png'
-export const CROSSHAIR_ICON_URL = '/icon.png'
+export const LOGO_URL = '/logo.svg'
+export const PIN_ICON_URL = '/pin.svg'
+export const CROSSHAIR_ICON_URL = '/crosshair.svg'
+export const CROSSHAIR_SIZE_PX = 40
+// ピンの横幅（高さは画像の縦横比に合わせて自動で決まる）
 export const MAP_ICON_SIZE_PX = 32
 // 選択中のピンは大きく表示して目立たせる
 export const SELECTED_PIN_SIZE_PX = 48

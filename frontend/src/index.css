@@ -1,23 +1,38 @@
 :root {
-  --color-bg: #f5f6f8;
+  /* 配色：温かみのある白地にオレンジのアクセント */
+  --color-bg: #fff8f0;
+  --color-bg-dot: #fde4cc;
   --color-surface: #ffffff;
-  --color-text: #212529;
-  --color-muted: #6c757d;
-  --color-border: #dee2e6;
-  --color-primary: #0d6efd;
-  --color-primary-soft: #e7f1ff;
-  --color-success: #198754;
-  --color-danger: #dc3545;
+  --color-text: #3d2c22;
+  --color-muted: #8a7566;
+  --color-border: #f3e1cf;
+  --color-primary: #f76707;
+  --color-primary-strong: #d9480f; /* 白文字を載せるボタン用（読みやすい濃さ） */
+  --color-primary-shade: #b23c0c; /* ボタン下の立体感 */
+  --color-primary-soft: #fff0e3;
+  --color-success: #2b9a66;
+  --color-danger: #e03131;
+  --color-danger-shade: #a51d1d;
   --color-location: #1a73e8;
-  --radius: 8px;
-  --shadow: 0 2px 8px rgb(0 0 0 / 0.15);
+
+  --radius-sm: 10px;
+  --radius: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
+  --shadow: 0 6px 20px rgb(160 82 20 / 0.12);
+  --shadow-strong: 0 10px 30px rgb(120 60 10 / 0.22);
+  --press-depth: 3px;
+
   --map-height: 480px;
   --map-control-size: 40px;
   --sheet-max-height: 45dvh;
 
-  font-family: system-ui, 'Hiragino Sans', 'Yu Gothic UI', sans-serif;
+  font-family: 'M PLUS Rounded 1c', system-ui, 'Hiragino Maru Gothic ProN', 'Yu Gothic UI', sans-serif;
   color: var(--color-text);
-  background: var(--color-bg);
+  background-color: var(--color-bg);
+  /* 背景にうっすら水玉模様 */
+  background-image: radial-gradient(var(--color-bg-dot) 1.5px, transparent 1.5px);
+  background-size: 22px 22px;
 }
 
 * {
@@ -43,7 +58,7 @@ body {
 .app {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 16px 24px;
+  padding: 0 20px 32px;
 }
 
 .app-header {
@@ -51,36 +66,50 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 16px 0;
+  padding: 20px 0;
 }
 
 .app-title {
-  font-size: 1.25rem;
-  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.app-logo {
+  width: 40px;
+  height: 40px;
 }
 
 .tabs {
   display: flex;
   gap: 4px;
-  padding: 4px;
-  border-radius: var(--radius);
+  padding: 5px;
+  border-radius: var(--radius-pill);
   background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow);
 }
 
 .tab {
-  padding: 6px 16px;
-  border-radius: 6px;
-  color: var(--color-text);
+  padding: 8px 20px;
+  border-radius: var(--radius-pill);
+  color: var(--color-muted);
+  font-weight: 700;
   text-decoration: none;
+  transition:
+    background-color 0.15s,
+    color 0.15s;
 }
 
 .tab:hover {
-  background: var(--color-bg);
+  background: var(--color-primary-soft);
+  color: var(--color-primary-strong);
 }
 
 .tab.active {
-  background: var(--color-primary);
+  background: var(--color-primary-strong);
   color: #fff;
 }
 
@@ -93,21 +122,22 @@ body {
 
 .card {
   background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
   overflow: hidden;
 }
 
 .card-title {
   margin: 0;
-  padding: 12px 16px;
+  padding: 14px 20px;
   font-size: 1rem;
+  font-weight: 800;
   text-align: center;
-  border-bottom: 1px solid var(--color-border);
+  color: var(--color-primary-strong);
 }
 
 .card-body {
-  padding: 16px;
+  padding: 4px 20px 20px;
   text-align: center;
 }
 
@@ -119,11 +149,9 @@ body {
   justify-content: center;
   gap: 8px;
   border: none;
-  border-bottom: 1px solid var(--color-border);
   background: none;
   font: inherit;
-  font-weight: bold;
-  color: inherit;
+  font-weight: 800;
   cursor: pointer;
 }
 
@@ -139,6 +167,12 @@ body {
   height: var(--map-height);
 }
 
+.map-pin {
+  height: auto;
+  filter: drop-shadow(0 2px 2px rgb(0 0 0 / 0.3));
+  transition: width 0.15s ease-out;
+}
+
 /* 地図の中心に重ねる照準（クリックは地図へ通す） */
 .map-crosshair {
   position: absolute;
@@ -151,19 +185,20 @@ body {
 /* 地図上部中央に重ねる「読み込み中」「0件」の案内 */
 .map-notice {
   position: absolute;
-  top: 12px;
+  top: 14px;
   left: 50%;
   transform: translateX(-50%);
-  padding: 12px 20px;
+  padding: 14px 24px;
   border-radius: var(--radius);
   background: var(--color-surface);
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-strong);
+  font-weight: 700;
   text-align: center;
   white-space: nowrap;
 }
 
 .map-notice p {
-  margin: 0 0 8px;
+  margin: 0 0 10px;
 }
 
 .current-location-button {
@@ -171,9 +206,9 @@ body {
   height: var(--map-control-size);
   margin: 10px;
   border: none;
-  border-radius: 2px;
+  border-radius: 50%;
   background: var(--color-surface);
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-strong);
   color: var(--color-location);
   font-size: 1.25rem;
   cursor: pointer;
@@ -200,10 +235,23 @@ body {
   max-width: 100%;
   margin: 12px auto;
   border-radius: var(--radius);
+  box-shadow: var(--shadow);
 }
 
-.photo-panel p {
-  margin: 0;
+.photo-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.date-badge {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary-soft);
+  color: var(--color-primary-strong);
+  font-size: 0.9rem;
+  font-weight: 700;
 }
 
 .photo-button {
@@ -213,6 +261,11 @@ body {
   border: none;
   background: none;
   cursor: zoom-in;
+  transition: transform 0.15s ease-out;
+}
+
+.photo-button:hover {
+  transform: scale(1.02);
 }
 
 /* ---------- 追加画面 ---------- */
@@ -229,7 +282,9 @@ body {
   flex-direction: column;
   gap: 8px;
   margin: 0;
-  padding: 0;
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  background: var(--color-bg);
   list-style: none;
   text-align: left;
 }
@@ -237,7 +292,7 @@ body {
 .step {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   color: var(--color-muted);
 }
 
@@ -246,17 +301,24 @@ body {
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
   border: 2px solid currentColor;
   border-radius: 50%;
+  background: var(--color-surface);
   font-size: 0.8rem;
-  font-weight: bold;
+  font-weight: 800;
 }
 
 .step.current {
-  color: var(--color-primary);
-  font-weight: bold;
+  color: var(--color-primary-strong);
+  font-weight: 700;
+}
+
+.step.current .step-mark {
+  background: var(--color-primary-strong);
+  border-color: var(--color-primary-strong);
+  color: #fff;
 }
 
 .step.done {
@@ -283,6 +345,7 @@ body {
 
 .create-info dd {
   margin: 0;
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
 
@@ -291,12 +354,16 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 120px;
+  min-height: 140px;
   padding: 16px;
-  border: 2px dashed var(--color-border);
+  border: 3px dashed var(--color-border);
   border-radius: var(--radius);
   color: var(--color-muted);
+  font-weight: 700;
   cursor: pointer;
+  transition:
+    border-color 0.15s,
+    background-color 0.15s;
 }
 
 .drop-zone:hover,
@@ -304,24 +371,35 @@ body {
 .drop-zone.dragging {
   border-color: var(--color-primary);
   background: var(--color-primary-soft);
+  color: var(--color-primary-strong);
 }
 
 .drop-zone .photo {
   margin-top: 0;
 }
 
-/* ---------- ボタン ---------- */
+/* ---------- ボタン（押すと少し沈む） ---------- */
 
 .button {
   display: inline-block;
-  padding: 6px 16px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
+  padding: 10px 24px;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-pill);
   background: var(--color-surface);
+  box-shadow: 0 var(--press-depth) 0 var(--color-border);
   color: var(--color-text);
   font: inherit;
+  font-weight: 700;
   text-decoration: none;
   cursor: pointer;
+  transition:
+    transform 0.08s,
+    box-shadow 0.08s;
+}
+
+.button:active:not(:disabled) {
+  transform: translateY(var(--press-depth));
+  box-shadow: none;
 }
 
 .button:disabled {
@@ -330,14 +408,16 @@ body {
 }
 
 .button.primary {
-  background: var(--color-primary);
-  border-color: var(--color-primary);
+  background: var(--color-primary-strong);
+  border-color: var(--color-primary-strong);
+  box-shadow: 0 var(--press-depth) 0 var(--color-primary-shade);
   color: #fff;
 }
 
 .button.danger {
   background: var(--color-danger);
   border-color: var(--color-danger);
+  box-shadow: 0 var(--press-depth) 0 var(--color-danger-shade);
   color: #fff;
 }
 
@@ -348,10 +428,11 @@ body {
 }
 
 .error {
-  padding: 12px 16px;
+  padding: 12px 20px;
   border-radius: var(--radius);
-  background: #f8d7da;
-  color: #842029;
+  background: #ffe3e3;
+  color: #a51d1d;
+  font-weight: 700;
 }
 
 .toast-container {
@@ -368,12 +449,13 @@ body {
 }
 
 .toast {
-  padding: 12px 20px;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  padding: 12px 24px;
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-strong);
   color: #fff;
+  font-weight: 700;
   white-space: nowrap;
-  animation: toast-in 0.2s ease-out;
+  animation: toast-in 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .toast.success {
@@ -384,10 +466,11 @@ body {
   background: var(--color-danger);
 }
 
+/* 少し弾むように出てくる */
 @keyframes toast-in {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(12px) scale(0.9);
   }
 }
 
@@ -397,22 +480,24 @@ body {
   width: min(420px, calc(100vw - 32px));
   padding: 0;
   border: none;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-strong);
+  color: var(--color-text);
 }
 
 .modal::backdrop {
-  background: rgb(0 0 0 / 0.5);
+  background: rgb(61 44 34 / 0.55);
 }
 
 .modal-body {
-  padding: 20px;
+  padding: 24px;
   text-align: center;
 }
 
 .modal-title {
   margin: 0 0 12px;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
+  font-weight: 800;
 }
 
 .modal-body p {
@@ -425,9 +510,9 @@ body {
 
 .modal-actions {
   display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  margin-top: 16px;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
 }
 
 /* 写真の拡大表示。背景（写真以外）をクリックすると閉じる */
@@ -447,7 +532,7 @@ body {
 }
 
 .modal.lightbox::backdrop {
-  background: rgb(0 0 0 / 0.85);
+  background: rgb(30 20 14 / 0.88);
 }
 
 .lightbox-image {
@@ -458,17 +543,24 @@ body {
 
 .lightbox-close {
   position: absolute;
-  top: 12px;
+  top: 16px;
   right: 16px;
+  width: 44px;
+  height: 44px;
   border: none;
-  background: none;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.15);
   color: #fff;
-  font-size: 2rem;
+  font-size: 1.75rem;
   line-height: 1;
   cursor: pointer;
 }
 
-/* ---------- スマホ表示：地図を画面いっぱいに、パネルは下から引き出す ---------- */
+.lightbox-close:hover {
+  background: rgb(255 255 255 / 0.3);
+}
+
+/* ---------- 画面幅が狭いとき：地図を画面いっぱいに、パネルは下から引き出す ---------- */
 
 @media (max-width: 768px) {
   .app {
@@ -483,11 +575,17 @@ body {
   }
 
   .app-title {
+    gap: 6px;
     font-size: 1rem;
   }
 
+  .app-logo {
+    width: 28px;
+    height: 28px;
+  }
+
   .tab {
-    padding: 4px 12px;
+    padding: 6px 12px;
   }
 
   .app > .error {
@@ -507,8 +605,8 @@ body {
     flex: 1;
     flex-direction: column;
     min-height: 0;
-    border-width: 1px 0 0;
     border-radius: 0;
+    box-shadow: none;
   }
 
   .map-card .card-title {
@@ -523,9 +621,8 @@ body {
   }
 
   .panel-card {
-    border-width: 0;
-    border-radius: 12px 12px 0 0;
-    box-shadow: 0 -2px 8px rgb(0 0 0 / 0.15);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    box-shadow: 0 -4px 16px rgb(120 60 10 / 0.18);
   }
 
   .panel-heading {
@@ -534,10 +631,6 @@ body {
 
   .sheet-toggle {
     display: flex;
-  }
-
-  .panel-card:not(.is-open) .sheet-toggle {
-    border-bottom: none;
   }
 
   .panel-card:not(.is-open) .card-body {

@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { NavLink } from 'react-router'
+import { LOGO_URL } from '../constants'
 
 const TABS = [
   { to: '/', label: 'マップ' },
@@ -23,7 +24,10 @@ export function Layout({ mapTitle, map, panelTitle, panel, panelOpen, onPanelOpe
   return (
     <div className="app">
       <header className="app-header">
-        <span className="app-title">自販機マップ</span>
+        <span className="app-title">
+          <img className="app-logo" src={LOGO_URL} alt="" />
+          自販機マップ
+        </span>
         <nav className="tabs">
           {TABS.map((tab) => (
             // NavLink は表示中の画面のリンクに active クラスを付ける

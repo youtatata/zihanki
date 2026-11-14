@@ -17,7 +17,7 @@ export function PhotoPanel({ machine, children }: Props) {
   const alt = `${machine.date} の自販機`
   return (
     <div className="photo-panel">
-      <p>{machine.date}</p>
+      <span className="date-badge">{machine.date}</span>
       <button type="button" className="photo-button" title="クリックで拡大" onClick={() => setZoomed(true)}>
         <img className="photo" src={machine.image_url} alt={alt} />
       </button>
