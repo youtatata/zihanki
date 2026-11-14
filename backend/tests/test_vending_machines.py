@@ -151,3 +151,12 @@ def test_update_rejects_invalid_image_and_keeps_old(client, upload_dir):
 def test_update_unknown_id_returns_404(client):
     res = client.put(f"{API}/999", data=UPDATED_FORM)
     assert res.status_code == 404
+
+
+def test_create_and_update_area(client):
+    created = post_machine(client).json()
+    assert (created["prefecture"], created["city"]) == ("", "")
+
+    form = {**VALID_FORM, "prefecture": "京都府", "city": "京都市"}
+    updated = client.put(f"{API}/{created['id']}", data=form).json()
+    assert (updated["prefecture"], updated["city"]) == ("京都府", "京都市")

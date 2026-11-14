@@ -326,6 +326,7 @@ body {
 
 .field input[type='text'],
 .field input[type='date'],
+.field select,
 .field textarea {
   width: 100%;
   padding: 10px 14px;
@@ -341,6 +342,7 @@ body {
 }
 
 .field input:focus,
+.field select:focus,
 .field textarea:focus {
   border-color: var(--color-primary);
   outline: none;
@@ -720,6 +722,69 @@ body {
 
 .empty-state p {
   margin: 0 0 16px;
+}
+
+/* 地域ごとのまとまり（都道府県 ＞ 市区町村）。見出しを押すと開閉する */
+.area-group {
+  margin-bottom: 24px;
+}
+
+.area-summary,
+.city-summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-weight: 800;
+  list-style: none; /* 標準の三角マークを消し、下の ::before で描く */
+}
+
+.area-summary::-webkit-details-marker,
+.city-summary::-webkit-details-marker {
+  display: none;
+}
+
+.area-summary::before,
+.city-summary::before {
+  content: '▶';
+  color: var(--color-primary);
+  font-size: 0.7em;
+  transition: transform 0.15s;
+}
+
+details[open] > .area-summary::before,
+details[open] > .city-summary::before {
+  transform: rotate(90deg);
+}
+
+.area-summary {
+  margin-bottom: 12px;
+  padding: 10px 18px;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  box-shadow: var(--shadow);
+  font-size: 1.1rem;
+}
+
+.city-group {
+  margin: 0 0 16px 16px;
+}
+
+.city-summary {
+  margin-bottom: 12px;
+  color: var(--color-primary-strong);
+}
+
+.area-count {
+  padding: 1px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary-soft);
+  color: var(--color-primary-strong);
+  font-size: 0.8rem;
+}
+
+.area-group > .machine-grid {
+  margin-left: 16px;
 }
 
 .machine-grid {

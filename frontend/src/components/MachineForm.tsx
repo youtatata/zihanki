@@ -1,6 +1,7 @@
 import type { FormEvent, ReactNode } from 'react'
-import { COORD_DISPLAY_DIGITS, MEMO_MAX_LENGTH, NAME_MAX_LENGTH, PAYMENT_METHOD_LABELS, PAYMENT_METHODS } from '../constants'
+import { COORD_DISPLAY_DIGITS, MEMO_MAX_LENGTH, PAYMENT_METHOD_LABELS, PAYMENT_METHODS } from '../constants'
 import type { LatLng, MachineDetails, PaymentMethod } from '../types'
+import { BrandField } from './BrandField'
 import { ImageDropZone } from './ImageDropZone'
 
 type Props = {
@@ -52,16 +53,7 @@ export function MachineForm(props: Props) {
         <input type="date" required value={details.date} onChange={(e) => update({ date: e.target.value })} />
       </label>
 
-      <label className="field">
-        <span className="field-label">名前（任意）</span>
-        <input
-          type="text"
-          maxLength={NAME_MAX_LENGTH}
-          placeholder="例：駅前の自販機"
-          value={details.name}
-          onChange={(e) => update({ name: e.target.value })}
-        />
-      </label>
+      <BrandField value={details.name} onChange={(name) => update({ name })} />
 
       <fieldset className="field">
         <legend className="field-label">支払い方法（任意）</legend>

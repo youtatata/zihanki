@@ -5,7 +5,7 @@ create_all は既にあるテーブルを変更しないため、起動時に足
 
 from sqlalchemy import Engine, inspect, text
 
-from app.config import NAME_MAX_LENGTH
+from app.config import AREA_MAX_LENGTH, NAME_MAX_LENGTH
 from app.models import VendingMachine
 
 # 後から追加した列と、その定義（既存の行に入る既定値つき）
@@ -13,6 +13,8 @@ ADDED_COLUMNS = {
     "name": f"VARCHAR({NAME_MAX_LENGTH}) NOT NULL DEFAULT ''",
     "memo": "TEXT NOT NULL DEFAULT ''",
     "payment_methods": "JSON NOT NULL DEFAULT '[]'",
+    "prefecture": f"VARCHAR({AREA_MAX_LENGTH}) NOT NULL DEFAULT ''",
+    "city": f"VARCHAR({AREA_MAX_LENGTH}) NOT NULL DEFAULT ''",
 }
 
 

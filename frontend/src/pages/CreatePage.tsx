@@ -5,9 +5,10 @@ import { Layout } from '../components/Layout'
 import { MachineForm } from '../components/MachineForm'
 import { MapView } from '../components/MapView'
 import { StepGuide } from '../components/StepGuide'
-import { COORD_DISPLAY_DIGITS, MAP_DEFAULT_CENTER } from '../constants'
+import { COORD_DISPLAY_DIGITS, EMPTY_AREA, MAP_DEFAULT_CENTER } from '../constants'
 import { useToast } from '../contexts/toast'
 import { useImageFile } from '../hooks/useImageFile'
+import { useReverseGeocode } from '../hooks/useReverseGeocode'
 import type { LatLng, MachineDetails } from '../types'
 import { errorMessage } from '../utils/errorMessage'
 
@@ -27,6 +28,7 @@ function isMoved(position: LatLng): boolean {
 export function CreatePage() {
   const navigate = useNavigate()
   const showToast = useToast()
+  const reverseGeocode = useReverseGeocode()
   const [position, setPosition] = useState<LatLng>(MAP_DEFAULT_CENTER)
   const [details, setDetails] = useState<MachineDetails>(() => ({
     date: todayString(),
@@ -43,8 +45,9 @@ export function CreatePage() {
     if (!image) return
     setSubmitting(true)
     try {
-      await createVendingMachine(position, details, image)
-      showToast('保存しました')
+      const area = await reverseGeocode(position)
+      await createVendingMachine(position, details, area ?? EMPTY_AREA, image)
+      showToast(area ? '保存しました' : '保存しました（地域は取得できませんでした）')
       navigate('/')
     } catch (err) {
       showToast(`保存できませんでした：${errorMessage(err)}`, 'error')

@@ -1,4 +1,4 @@
-import type { LatLng, MachineDetails, VendingMachine } from '../types'
+import type { Area, LatLng, MachineDetails, VendingMachine } from '../types'
 
 const BASE_URL = '/api/vending-machines'
 
@@ -17,7 +17,7 @@ export async function fetchVendingMachines(): Promise<VendingMachine[]> {
 }
 
 // 登録・更新で送るフォームを組み立てる。画像は指定されたときだけ送る
-function toFormData(position: LatLng, details: MachineDetails, image: File | null): FormData {
+function toFormData(position: LatLng, details: MachineDetails, area: Area, image: File | null): FormData {
   const form = new FormData()
   form.append('lat', String(position.lat))
   form.append('lng', String(position.lng))
@@ -26,6 +26,8 @@ function toFormData(position: LatLng, details: MachineDetails, image: File | nul
   form.append('memo', details.memo)
   // 複数選択は同じ名前で繰り返し送る
   for (const method of details.payment_methods) form.append('payment_methods', method)
+  form.append('prefecture', area.prefecture)
+  form.append('city', area.city)
   if (image) form.append('image', image)
   return form
 }
@@ -33,9 +35,10 @@ function toFormData(position: LatLng, details: MachineDetails, image: File | nul
 export async function createVendingMachine(
   position: LatLng,
   details: MachineDetails,
+  area: Area,
   image: File,
 ): Promise<VendingMachine> {
-  const res = await fetch(BASE_URL, { method: 'POST', body: toFormData(position, details, image) })
+  const res = await fetch(BASE_URL, { method: 'POST', body: toFormData(position, details, area, image) })
   await throwIfError(res)
   return res.json()
 }
@@ -45,9 +48,10 @@ export async function updateVendingMachine(
   id: number,
   position: LatLng,
   details: MachineDetails,
+  area: Area,
   image: File | null,
 ): Promise<VendingMachine> {
-  const res = await fetch(`${BASE_URL}/${id}`, { method: 'PUT', body: toFormData(position, details, image) })
+  const res = await fetch(`${BASE_URL}/${id}`, { method: 'PUT', body: toFormData(position, details, area, image) })
   await throwIfError(res)
   return res.json()
 }

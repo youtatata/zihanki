@@ -27,6 +27,8 @@ def to_out(machine: VendingMachine) -> VendingMachineOut:
         name=machine.name,
         memo=machine.memo,
         payment_methods=machine.payment_methods,
+        prefecture=machine.prefecture,
+        city=machine.city,
     )
 
 

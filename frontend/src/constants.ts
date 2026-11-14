@@ -1,4 +1,4 @@
-import type { PaymentMethod } from './types'
+import type { Area, PaymentMethod } from './types'
 
 export const GOOGLE_MAPS_API_KEY: string = import.meta.env.VITE_GOOGLE_MAPS_API_KEY ?? ''
 
@@ -42,6 +42,23 @@ export const PAYMENT_METHOD_LABELS: Record<PaymentMethod, string> = {
   credit: 'クレジット',
 }
 export const PAYMENT_METHODS = Object.keys(PAYMENT_METHOD_LABELS) as PaymentMethod[]
+
+// 機種名の選択肢。ここにないものは「その他」で自由に入力する
+export const MACHINE_BRANDS = [
+  'コカ・コーラ',
+  'サントリー（BOSS）',
+  'キリン',
+  'アサヒ',
+  'ダイドー',
+  '伊藤園',
+  'ポッカサッポロ',
+  '大塚製薬',
+  'チェリオ',
+  'アペックス（カップ式）',
+]
+
+// 地域を調べられなかったときの値（一覧では「地域未設定」にまとめる）
+export const EMPTY_AREA: Area = { prefecture: '', city: '' }
 
 // 登録できる画像（バックエンドの制限と合わせる）
 export const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp']

@@ -28,7 +28,9 @@ frontend/  React + TypeScript + Vite（画面）
 | PUT | `/api/vending-machines/{id}` | 更新（multipart。下記の項目。`image` は送ったときだけ差し替え、古い画像は削除） |
 | DELETE | `/api/vending-machines/{id}` | 削除（画像ファイルも削除） |
 
-登録・更新の項目: `lat`, `lng`, `date`（必須）、`name`（50文字以内）、`memo`（500文字以内）、`payment_methods`（`cash` / `ic` / `qr` / `credit` を複数指定可）。画像は JPEG/PNG/WebP・5MB 以下。
+登録・更新の項目: `lat`, `lng`, `date`（必須）、`name`（50文字以内）、`memo`（500文字以内）、`payment_methods`（`cash` / `ic` / `qr` / `credit` を複数指定可）、`prefecture`・`city`（各50文字以内。画面側が Google Maps の Geocoding で位置から調べて送る）。画像は JPEG/PNG/WebP・5MB 以下。
+
+一覧画面の地域まとめ表示には、Google Cloud Console で API キーの **Geocoding API** を有効にする必要があります。無効の場合は「地域未設定」として保存されます。
 
 後から追加した列は、バックエンド起動時に既存のデータベースへ自動で追加されます（`app/migrations.py`）。
 

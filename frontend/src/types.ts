@@ -14,8 +14,15 @@ export type MachineDetails = {
   payment_methods: PaymentMethod[]
 }
 
+// 位置から調べた地域。調べられなかった場合は空文字
+export type Area = {
+  prefecture: string
+  city: string
+}
+
 export type VendingMachine = LatLng &
-  MachineDetails & {
+  MachineDetails &
+  Area & {
     id: number
     image_url: string
     created_at: string

@@ -7,6 +7,7 @@ import { MapView } from '../components/MapView'
 import { PageShell } from '../components/PageShell'
 import { useToast } from '../contexts/toast'
 import { useImageFile } from '../hooks/useImageFile'
+import { useReverseGeocode } from '../hooks/useReverseGeocode'
 import { useVendingMachines } from '../hooks/useVendingMachines'
 import type { LatLng, MachineDetails, VendingMachine } from '../types'
 import { errorMessage } from '../utils/errorMessage'
@@ -41,6 +42,7 @@ export function EditMachinePage() {
 function EditMachineForm({ machine }: { machine: VendingMachine }) {
   const navigate = useNavigate()
   const showToast = useToast()
+  const reverseGeocode = useReverseGeocode()
   const original: LatLng = { lat: machine.lat, lng: machine.lng }
   const [position, setPosition] = useState<LatLng>(original)
   const [details, setDetails] = useState<MachineDetails>({
@@ -56,7 +58,9 @@ function EditMachineForm({ machine }: { machine: VendingMachine }) {
   async function handleSubmit() {
     setSubmitting(true)
     try {
-      await updateVendingMachine(machine.id, position, details, image)
+      // 調べられなかったときは、登録済みの地域をそのまま残す
+      const area = (await reverseGeocode(position)) ?? { prefecture: machine.prefecture, city: machine.city }
+      await updateVendingMachine(machine.id, position, details, area, image)
       showToast('更新しました')
       navigate(`/?id=${machine.id}`)
     } catch (err) {
