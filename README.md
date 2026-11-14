@@ -85,7 +85,6 @@ npm run build   # 型チェック + ビルド
 npm run lint
 ```
 
-## 旧実装（Laravel）
+## 旧実装について
 
-リポジトリ直下の `app/`, `resources/`, `routes/` などは移行前の Laravel 9 実装で、参照用に残しています。
-新しい実装へ完全に移行した後に削除する予定です。
+移行前の Laravel 9 実装は Git の履歴（コミット `b44a581` 以前）で参照できます。
