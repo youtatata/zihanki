@@ -15,8 +15,7 @@
     <!-- <script src="{{ '/js/app.js' }}" defer></script> -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     @yield('js')
-    <!-- <script src="https://maps.googleapis.com/maps/api/js?language=ja&region=JP&key=[APIキーをここに入力]&callback=initMap" async defer> -->
-    <script src="https://maps.googleapis.com/maps/api/js?language=ja&region=JP&key=AIzaSyAQPboFGY6ZEOp_eRLjVeuADsgBTvePFNM&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?language=ja&region=JP&key={{ config('services.google_maps.key') }}&callback=initMap" async defer></script>
     <!-- 上のがMap用のjs -->
 
     <!-- Fonts -->
