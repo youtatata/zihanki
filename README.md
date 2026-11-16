@@ -5,7 +5,7 @@
 
 ![画面イメージ](zihanki.png)
 
-> このアプリを FastAPI + React + TypeScript で作り直した新しい版は、[`rewrite/python-react`](../../tree/rewrite/python-react) ブランチにあります。
+> このアプリを FastAPI + React + TypeScript で作り直した新しい版は、[zihanki_v2](https://github.com/youtatata/zihanki_v2) リポジトリで公開しています。
 
 ## 主な機能
 
